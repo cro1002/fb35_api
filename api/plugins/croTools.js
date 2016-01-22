@@ -446,7 +446,7 @@ croTools.canvasCircle = function(canvas, option){
 			x			: 0.5,
 			y			: 0.5,
 			radius: [_size/8, _size/16],// or number
-			thick	: [_size/6, _size/3],	// or number
+			thick	: [_size/16, _size/8],	// or number
 			ccw		: false,
 			color	: {
 				R : [255, 255,  32,   0,  32, 255],
