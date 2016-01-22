@@ -12,7 +12,7 @@ var eBookData = {
 	homeUrl			: "http://www.ebook.co.kr",	// 홈버튼 링크
 	
 	pageView : { /** 페이지 넘김 속성 */
-		type			: "slide",	// pageView.type + .js
+		type			: "flip",	// pageView.type + .js
 		side			: "auto",	// 페이지 표시 양단면 설정 : auto, single, double
 		duration	: 600,		// 페이지 전환 속도
 		cover			: true,		// 커버페이지 사용여부 : added 15.10.07
