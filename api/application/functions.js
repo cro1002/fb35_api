@@ -41,13 +41,91 @@ $(document).ready(function() {
 					||	e.which === croTools.keyCode.MOUSELEFT);
 	};
 	
-	// 스킨 내장 스크립트 로딩
+	if(eBookData.password){ // 암호가 설정되어있으면 체크 후 로딩시작
+		eBookCore.func.showPasswordDlg();
+	}else{
+		eBookCore.func.loadSkinAndInitialize();
+	}
+});
+
+/**	암호 입력 화면 띄우기
+**/
+eBookCore.func.showPasswordDlg = function(){
+	
+	var blindEl = $("<div class='blind' />")
+		.css({
+			zIndex		: croTools.zTopMost,
+			width			: '100%',
+			height		: '100%',
+			position	: 'absolute',
+			background: 'black',
+		});
+	$(document.body).append(blindEl);
+	
+	var formEl = $("<form id='pwdBox' />")
+		.css({
+			position	: 'absolute',
+			margin		: 'auto',
+			left			: '0px',
+			right			: '0px',
+			top				: '0px',
+			bottom		: '0px',
+			width			: '250px',
+			height		: '100px',
+			background: 'white',
+			borderRadius: '10px',
+			textAlign	: 'center',
+		})
+		.submit(eBookCore.func.passwordCheck);
+	blindEl.append(formEl);
+	
+	var msgEl = $("<p />")
+		.css({
+			margin:'0.5em 0px',
+		})
+		.html(eBookCore.getString("enter_pwd"));
+	formEl.append(msgEl);
+	
+	var inputPassEl = $("<input id='pwdText' type='password' required />")
+		.css({
+			width : '200px',
+			display : 'block',
+			left : '0px',
+			right : '0px',
+			margin : '0.5em auto',
+		});
+	formEl.append(inputPassEl);
+
+	var buttonEl = $("<input type='button' value='"+eBookCore.getString("submit")+"'/>")
+		.css({
+			width : '50px',
+		})
+		.on('click', eBookCore.func.passwordCheck);
+	formEl.append(buttonEl);
+};
+
+/**	비밀번호 체크
+**/
+eBookCore.func.passwordCheck = function() {
+	var passText = document.getElementById("pwdText").value;
+	if(CryptoJS.SHA512(passText).toString() === eBookData.password){
+		$(".blind").detach();
+		eBookCore.func.loadSkinAndInitialize();
+	}else{ // 실패시 화면내 오브젝트 초기화
+		alert(eBookCore.getString("incorrect_pwd"));
+		$(document.body).html("");
+	}
+};
+
+
+/**	스킨 내장 스크립트 로딩 후 초기화 시작
+**/
+eBookCore.func.loadSkinAndInitialize = function() {
 	yepnope({
 		load			: [ eBookCore.path.skin + "skin.js" ],	// 스킨 스크립트 로드( 로딩화면 처리 포함 )
 		complete	:  eBookCore.func.initializeApplication	// ★ 스크립트 로딩 완료 후 초기화 진행
 	});
-});
-
+};
 
 /**	URL 페이지 번호 변경 이벤트 처리
 **/
@@ -562,6 +640,7 @@ eBookCore.func.gotoPage = function(_pageNum){
 	
 	var _oldHash = location.hash;
 	
+	// hash change
 	location.hash = "#page=" + ( _pageNum > -1 ? croTools.rangeValue( _pageNum, 1, eBookData.totalPageNum ) : eBookData.totalPageNum );
 	
 	if(location.hash === _oldHash){			// 동일한 hash 값을 지정한 경우

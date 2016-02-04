@@ -269,7 +269,10 @@ eBookCore.string = {
 	redo					: { en:"redo"					,	ko:"실행복구"				},
 	clear					: { en:"clear"				,	ko:"초기화"					},
 	download			: { en:"download"			,	ko:"내려받기"				},
-	opacity				: { en:"opacity"			,	ko:"불투명도"				}
+	opacity				: { en:"opacity"			,	ko:"불투명도"				},
+	enter_pwd			: { en:"Please enter your password"		,	ko:"암호를 입력해 주세요"	},
+	submit				: { en:"submit"				,	ko:"확인"						},
+	incorrect_pwd	: { en:"You entered an incorrect password"	,	ko:"틀린 암호를 입력하셨습니다"	},
 };
 
 
@@ -282,7 +285,7 @@ eBookCore.getString = function(text){
 				||	eBookCore.string[ text ][ "en" ] /* default language */ ;
 	}catch(err){
 		croTools.log("getString( " + text + " ) error : " + err.message);
-		return '';
+		return ("unexpected string : " + text);
 	}
 };
 

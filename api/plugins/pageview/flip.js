@@ -63,15 +63,16 @@ eBookCore.pageTurn.init = function(){
 	viewframe.turn({
 		page			: eBookCore.currentPageNum,
 		pages			: eBookData.totalPageNum,
-		display			: eBookCore.func.nowPageViewSingle() ? "single" : "double",
-		duration		: eBookData.pageView.duration,
-		elevation		: 0,		// Elevation
-		gradients		: true,	// Enable gradients
-		autoCenter	: true,	// Auto center this flipbook
+		display		: eBookCore.func.nowPageViewSingle() ? "single" : "double",
+		duration	: eBookData.pageView.duration,
+		elevation	: 0,		// Elevation
+		gradients	: true,	// Enable gradients
+		autoCenter: true,	// Auto center this flipbook
 		when			: {
 			
 			turned : function(e, pageNum, pageObj) {
-				croTools.log("page turned");
+				croTools.log("page turned : "+pageNum);
+				eBookCore.func.setCurrentPageNum(pageNum); // 페이지를 직접 드래그하여 넘길 경우 현재 페이지 번호 설정하기 위해 추가
 				eBookCore.func.componentsReset();// 페이지 넘김 후 새 페이지 번호로 화면 갱신
 				
 				/** 확대축소 이벤트 재등록 : turnjs 특성상 사라진 페이지를 다시 추가하면 이전 이벤트가 제거되어있으므로 재등록함 */
