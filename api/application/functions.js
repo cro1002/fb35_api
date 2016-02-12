@@ -52,68 +52,39 @@ $(document).ready(function() {
 **/
 eBookCore.func.showPasswordDlg = function(){
 	
-	var blindEl = $("<div class='blind' />")
-		.css({
-			zIndex		: croTools.zTopMost,
-			width			: '100%',
-			height		: '100%',
-			position	: 'absolute',
-			background: 'black',
-		});
+	var blindEl = $("<div class='blind' style='width:100%;height:100%;position:absolute;background:black;z-index:"+croTools.zTopMost+";' />");
 	$(document.body).append(blindEl);
 	
-	var formEl = $("<form id='pwdBox' />")
-		.css({
-			position	: 'absolute',
-			margin		: 'auto',
-			left			: '0px',
-			right			: '0px',
-			top				: '0px',
-			bottom		: '0px',
-			width			: '250px',
-			height		: '100px',
-			background: 'white',
-			borderRadius: '10px',
-			textAlign	: 'center',
-		})
+	var formEl = $("<form id='pwdBox' style='position:absolute;margin:auto;left:0px;right:0px;top:0px;bottom:0px;width:250px;height:100px;background-color:white;border-radius:10px;text-align:center;display:none;' />")
 		.submit(eBookCore.func.passwordCheck);
 	blindEl.append(formEl);
 	
-	var msgEl = $("<p />")
-		.css({
-			margin:'0.5em 0px',
-		})
-		.html(eBookCore.getString("enter_pwd"));
+	var msgEl = $("<p style='margin:0.5em 0px;'>"+eBookCore.getString("enter_pwd")+"</p>");
 	formEl.append(msgEl);
 	
-	var inputPassEl = $("<input id='pwdText' type='password' required />")
-		.css({
-			width : '200px',
-			display : 'block',
-			left : '0px',
-			right : '0px',
-			margin : '0.5em auto',
-		});
+	var inputPassEl = $("<input id='pwdText' type='password' required style='width:200px;display:block;left:0px;right:0px;margin:0.5em auto' />");
 	formEl.append(inputPassEl);
 
-	var buttonEl = $("<input type='button' value='"+eBookCore.getString("submit")+"'/>")
-		.css({
-			width : '50px',
-		})
+	var buttonEl = $("<input type='button' value='"+eBookCore.getString("submit")+"' style='width:50px;' />")
 		.on('click', eBookCore.func.passwordCheck);
 	formEl.append(buttonEl);
+	
+	formEl.fadeIn("slow", function(){
+		inputPassEl.focus();
+	});
 };
 
 /**	비밀번호 체크
 **/
 eBookCore.func.passwordCheck = function() {
 	var passText = document.getElementById("pwdText").value;
+	croTools.log("password : "+passText);
 	if(CryptoJS.SHA512(passText).toString() === eBookData.password){
 		$(".blind").detach();
 		eBookCore.func.loadSkinAndInitialize();
-	}else{ // 실패시 화면내 오브젝트 초기화
+	}else{ // 실패시 알림창 띄우기
 		alert(eBookCore.getString("incorrect_pwd"));
-		$(document.body).html("");
+		//$(document.body).html("");
 	}
 };
 
