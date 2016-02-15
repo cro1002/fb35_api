@@ -155,14 +155,12 @@ eBookCore.pageTurn.resize = function(){
 	var _frameTop		= ( _viewport.height() - _frameHeight ) / 2;
 
 	var viewframe = $(".pageview .viewframe").css({
-		left		: _frameLeft			+ 'px',
-		top		: _frameTop			+ 'px',
-		width	: _frameWidth		+ 'px',
-		height	: _frameHeight	+ 'px',
+		left	: (_frameLeft		+20)	+ 'px',
+		top		: (_frameTop		+20)	+ 'px',
 	});
 
 	if(0<viewframe.children().length){
-		viewframe.turn("size",		_frameWidth, _frameHeight				);
+		viewframe.turn("size",		_frameWidth-40, _frameHeight-40				);
 		viewframe.turn("display",	_displaySingle ? "single" : "double"	);
 	}
 
