@@ -15,7 +15,7 @@ var eBookData = {
 	homeUrl			: "http://www.ebook.co.kr",	// 홈버튼 링크
 	
 	pageView : { /** 페이지 넘김 속성 */
-		type			: "flip",	// pageView.type + .js
+		type			: "click",	// pageView.type + .js
 		side			: "auto",	// 페이지 표시 양단면 설정 : auto, single, double
 		duration	: 600,		// 페이지 전환 속도
 		cover			: true,		// 커버페이지 사용여부 : added 15.10.07
@@ -53,7 +53,8 @@ var eBookData = {
 		[	3,
 			{ type:"image", originalSize:"false", link:"address|_blank|http://www.google.com/", borderWidth:"1", borderColor:"0x000000,100", rolloverImage:"http://", normalImage:"0910232846.jpg", name:"그림2", id:"Image21435545737769", height:"66", width:"96", y:"627", x:"498",  },
 			{ type:"image", originalSize:"false", link:"page|5", borderWidth:"1", borderColor:"0x000000,100", rolloverImage:"http://", normalImage:"0910232846.jpg", name:"그림1", id:"Image11435545735189", height:"196", width:"99", y:"277", x:"735",  },
-			{ type:"text", id:"Text11435545724621", name:"글상자1", height:"246", width:"304", y:"154", x:"253", text:"sdfg211213123", font:"바탕", textHeight:"32", letterSpacing:"0", leading:"0", align:"left", bold:"false", italic:"false", underline:"false", textColor:"0x000000,100", backgroundColor:"0xFFFFFF,100", borderColor:"0x000000,100", borderWidth:"1", link:"", }
+			{ type:"text", id:"Text11435545724621", name:"글상자1", height:"246", width:"304", y:"154", x:"253", text:"sdfg211213123", font:"바탕", textHeight:"32", letterSpacing:"0", leading:"0", align:"left", bold:"false", italic:"false", underline:"false", textColor:"0x000000,100", backgroundColor:"0xFFFFFF,100", borderColor:"0x000000,100", borderWidth:"1", link:"", },
+			{ type:"text", id:"Text11435545724622", name:"글상자2", height:"100", width:"200", y:"0", x:"590", text:"ㄱㄴㄷㄻㅄ", font:"굴림", textHeight:"32", letterSpacing:"0", leading:"0", align:"left", bold:"false", italic:"false", underline:"false", textColor:"0x000000,100", backgroundColor:"0xFFFFFF,100", borderColor:"0x000000,100", borderWidth:"1", link:"", }
 		],
 	],
 	

@@ -2,12 +2,14 @@ div#ebookprintview {
 	
 	text-align	: center;
 	position		: absolute;
-	width			: 100%;
+	width				: 100%;
 	height			: 100%;
+	left				: 0px;
+	top					: 0px;
 	border			: 0px;
-	margin		: 0px;
-	padding		: 0px;
-	z-index		: 2147483647; /* top most */
+	margin			: 0px;
+	padding			: 0px;
+	z-index			: 2147483647; /* top most */
 	background-color : white;
 }
 

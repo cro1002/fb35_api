@@ -25,11 +25,11 @@ eBookSkin.objects = [
 
 	{ type:"window"		, id:"sns_window"				, 'class':"mainobjects"		, children:[
 		{ type:"window"		, id:"sns_center"				, children:[
-			{ type:"image" 		, id:"sns_kakaotalk"	, 'class':"snsobjects", src:"sns/kakaotalk.png"		, title:"카카오톡"			, click:"eFnc.sendSNS('kakaotalk')"			, usable:"mobile"	},
-			{ type:"image" 		, id:"sns_kakaostory"	, 'class':"snsobjects", src:"sns/kakaostory.png"	, title:"카카오스토리"	, click:"eFnc.sendSNS('kakaostory')"	},
-			{ type:"image" 		, id:"sns_facebook"		, 'class':"snsobjects", src:"sns/facebook.png"		, title:"페이스북"			, click:"eFnc.sendSNS('facebook')"			},
-			{ type:"image" 		, id:"sns_twitter"		, 'class':"snsobjects", src:"sns/twitter.png"			, title:"트위터"				, click:"eFnc.sendSNS('twitter')"				},
-			{ type:"image" 		, id:"sns_band"				, 'class':"snsobjects", src:"sns/band.png"				, title:"밴드"					, click:"eFnc.sendSNS('http://www.band.us/plugin/share?body=##MSG##&route=##URL##')"	},
+			{ type:"image" 		, id:"sns_band"				, 'class':"snsobjects", src:"sns/band.png"				, title:"밴드"				, click:"eFnc.sendSNS('http://www.band.us/plugin/share?body=##MSG##&route=##URL##')"	},
+			{ type:"image" 		, id:"sns_facebook"		, 'class':"snsobjects", src:"sns/facebook.png"		, title:"페이스북"		, click:"eFnc.sendSNS('facebook')"},
+			{ type:"image" 		, id:"sns_twitter"		, 'class':"snsobjects", src:"sns/twitter.png"			, title:"트위터"			, click:"eFnc.sendSNS('twitter')"},
+			{ type:"image" 		, id:"sns_kakaostory"	, 'class':"snsobjects", src:"sns/kakaostory.png"	, title:"카카오스토리", click:"eFnc.sendSNS('kakaostory')"},
+			{ type:"image" 		, id:"sns_kakaotalk"	, 'class':"snsobjects", src:"sns/kakaotalk.png"		, title:"카카오톡"		, click:"eFnc.sendSNS('kakaotalk')"	, visible:"mobile"	},
 		]},
 	]},
 
@@ -39,14 +39,14 @@ eBookSkin.objects = [
 		
 			{ type:"logo"			, id:"menu_logo"					, src:"logo.png"					, title:"로고이미지"	},
 
-			{ type:"image"		, id:"menu_print_btn"			, 'class':"menuobjects", src:"menu/print.png"			, title:"인쇄"			, click:"eFnc.runPrint()"											, usable:"pc"	},
-			{ type:"image"		, id:"menu_tablelist_btn"	, 'class':"menuobjects", src:"menu/tablelist.png"	, title:"목차"			, click:"eFnc.wndToggle('#tablelist_window')"			},
-			{ type:"image"		, id:"menu_bookmark_btn"	, 'class':"menuobjects", src:"menu/bookmark.png"	, title:"책갈피"		, click:"eFnc.wndToggle('#bookmarklist_window')"	},
-			{ type:"image"		, id:"menu_memo_btn"			, 'class':"menuobjects", src:"menu/memo.png"			, title:"메모"			, click:"eFnc.runMemo()"													},
-			{ type:"image"		, id:"menu_slide_btn"			, 'class':"menuobjects", src:"menu/slide.png"			, title:"자동넘김"	, click:"eFnc.runSlideShow()"											},
-			{ type:"image"		, id:"menu_pdf_down"			, 'class':"menuobjects", src:"menu/pdf.png"				, title:"PDF 받기"	, click:"eFnc.pdfDown()"												},
-			{ type:"image"		, id:"menu_draw_btn"			, 'class':"menuobjects", src:"menu/draw.png"			, title:"판서"			, click:"eFnc.runDrawing()"												},
 			{ type:"image"		, id:"menu_search_btn"		, 'class':"menuobjects", src:"menu/search.png"		, title:"검색"			, click:"eFnc.wndToggle('#searchlist_window')"		},
+			{ type:"image"		, id:"menu_draw_btn"			, 'class':"menuobjects", src:"menu/draw.png"			, title:"판서"			, click:"eFnc.runDrawing()"												},
+			{ type:"image"		, id:"menu_pdf_down"			, 'class':"menuobjects", src:"menu/pdf.png"				, title:"PDF 받기"	, click:"eFnc.pdfDown()"												},
+			{ type:"image"		, id:"menu_slide_btn"			, 'class':"menuobjects", src:"menu/slide.png"			, title:"자동넘김"	, click:"eFnc.runSlideShow()"											},
+			{ type:"image"		, id:"menu_memo_btn"			, 'class':"menuobjects", src:"menu/memo.png"			, title:"메모"			, click:"eFnc.runMemo()"													},
+			{ type:"image"		, id:"menu_bookmark_btn"	, 'class':"menuobjects", src:"menu/bookmark.png"	, title:"책갈피"		, click:"eFnc.wndToggle('#bookmarklist_window')"	},
+			{ type:"image"		, id:"menu_tablelist_btn"	, 'class':"menuobjects", src:"menu/tablelist.png"	, title:"목차"			, click:"eFnc.wndToggle('#tablelist_window')"			},
+			{ type:"image"		, id:"menu_print_btn"			, 'class':"menuobjects", src:"menu/print.png"			, title:"인쇄"			, click:"eFnc.runPrint()"											, visible:"pc"	},
 		]},
 		
 	]},
