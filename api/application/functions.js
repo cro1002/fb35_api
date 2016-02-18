@@ -1119,3 +1119,9 @@ eBookCore.func.loadPageContents = function(pageEl, pageNum) { // pageNum : 1 ~ t
 	// 모든 이미지가 로딩됐으면 컴포넌트 리셋 호출
 	return 1>$(".loader").length && eBookCore.func.componentsReset();
 };
+
+/**	PDF 보기/받기
+**/
+eBookCore.func.pdfDown = function(path) {
+	window.open(path?path:"./assets/contents/download.pdf","_blank");
+};

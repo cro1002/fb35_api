@@ -233,47 +233,50 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 /* 배경 영역 */
 #background{
 	position:absolute; left:0px; top:0px; width:100%; height:100%; z-index:1; border:0px;
-	background: #b9e2bf;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,f2f2f2+50,c7c7c7+100 */
+	background: rgb(255,255,255); /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%, rgba(242,242,242,1) 50%, rgba(199,199,199,1) 100%); /* FF3.6-15 */
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(255,255,255,1) 0%,rgba(242,242,242,1) 50%,rgba(199,199,199,1) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: radial-gradient(ellipse at center,  rgba(255,255,255,1) 0%,rgba(242,242,242,1) 50%,rgba(199,199,199,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c7c7c7',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
+/* 로고 이미지 */		#menu_logo		{ position:absolute; left:0px; right:0px; margin:4px auto; width:auto; height:24px; z-index:4;	}
+
 /* 페이지 표시 영역 */
-#pageview{ position:absolute; left:0px; right:0px; margin:auto; top:80px; max-width:1200px; width:100%; height:80%; min-height:50px; z-index:2; border:0px; background: rgba(0,0,0,0.01); overflow:hidden; }
+#pageview{ position:absolute; left:0px; right:0px; margin:auto; top:80px; max-width:1200px; width:100%; height:80%; min-height:50px; z-index:2; border:0px; background: rgba(0,0,0,0); overflow:hidden; }
 
 /* 이전호 목록 */		#booklist		{ position : absolute;	right	: 2%;	top : 1%;	width : 150px;	font-size:100%; z-index : 3; }
+
+/*--------------------------------------------------------------------------------------------------
+		도구 메뉴
+*/
+/* 도구 창 */				#menu_window	{ position : absolute;	display:block; z-index : 5; width:100%; height : auto; margin-top:36px; text-align:center; }
+/* 도구 항목 */			.menuobjects	{ margin:0px 12px; height:24px; width:auto; }
+
 
 /*--------------------------------------------------------------------------------------------------
 		퀵 메뉴
 */
 /* 퀵 메뉴 창 */								#quick_window					{	position : absolute;	left : 5%; bottom : 2%;	width : 90%;	height : 25px; z-index : 5; text-align:center; }
+.quickobjects { width : auto;	height : auto; margin:0px 12px; }
 
-/* 퀵 메뉴 홈 버튼 */						#quick_home_btn				{ position : relative;	width : auto;	height : 100%; margin:0px 1%; }
-/* 퀵 메뉴 첫 페이지 버튼 */		#quick_first_btn			{ position : relative;	width : auto;	height : 100%; margin:0px 1%; }
-/* 퀵 메뉴 이전 페이지 버튼 */	#quick_prev_btn				{ position : relative;	width : auto;	height : 100%; margin:0px 1%; }
-/* 퀵 메뉴 페이지 번호 배경 */	#quick_pagenum_bg			{ position : relative;	width : auto;	height : 100%; margin:0px 1%; }
-/* 퀵 메뉴 페이지 번호 글자 */	#quick_pagenum_area		{ position : absolute;	width : 5em;	height : 100%; left : 0px; right : 0px; margin : auto; top : 10%; color : white;}
-/* 퀵 메뉴 페이지 수 글자 */		#quick_pagetotal_area	{ position : absolute;	width : 5em;	height : 100%; left : 3.5em; right : 0px; margin : auto; top : 30%; color : #567;}
-/* 퀵 메뉴 다음 페이지 버튼 */	#quick_next_btn				{ position : relative;	width : auto;	height : 100%; margin:0px 1%; }
-/* 퀵 메뉴 끝 페이지 버튼 */		#quick_last_btn				{ position : relative;	width : auto;	height : 100%; margin:0px 1%; }
-/* 퀵 메뉴 홈 버튼 */						#quick_fullscreen_btn	{ position : relative;	width : auto;	height : 100%; margin:0px 1%; }
+/* 퀵 메뉴 페이지 번호 배경 */	#quick_pagenum_bg			{ position:absolute; right:0px; width : auto;	height : auto; margin:0px auto; float:right; }
+/* 퀵 메뉴 페이지 번호 글자 */	#quick_pagenum_area		{ position:absolute; right:36px; bottom:3px; color : white; float:right;}
+/* 퀵 메뉴 페이지 수 글자 */		#quick_pagetotal_area	{ position:absolute; right:10px; bottom:0px; color : #567; float:right;}
+
+
+#bottom_window { position : absolute;	z-index : 4; width:100%; max-width:1200px; left:0px; right:0px; bottom:0px; margin:0px auto; text-align:center; }
 
 /*--------------------------------------------------------------------------------------------------
-		도구 메뉴
+		SNS
 */
-/* 도구 창 */				#menu_window	{ position : relative;	display:block; z-index : 5; height : auto; background:white; padding:6px 0px 14px 0px; box-shadow: 0px 3px 5px #a1c4a6; }
-/* 도구 중간박스 */	#menu_center	{ position : relative;	width : 100%; max-width : 1200px; left : 0px; right : 0px; top:0px; bottom:0px; margin : auto; text-align:right; }
-/* 도구 항목 */			.menuobjects	{ margin:15px 15px 0px 0px; height:14px; width:auto; }
-/* 로고 이미지 */		#menu_logo		{ margin-left:10px; width:auto; height:30px;	float:left; }
+/* SNS 창				*/	#sns_window	{ position : absolute; bottom:0px; z-index:-1; width:25%; text-align:left; height:100%; }
+/* SNS 각 항목	*/	.snsobjects { height:auto; min-width:15px; max-width:45px; width:20%; margin-top:-22.5px; }
+
 
 /*--------------------------------------------------------------------------------------------------
 		섬네일
 */
 /* 섬네일 목록 */		#thumbnail_list	{ position  : absolute;	right : 0px;	top : 10%;	min-width : 50px; width : 5%;	height : 80%; z-index : 5; padding: 0px 0px; overflow-x:hidden; overflow-y:auto; background:rgba(0,0,0,0.5); }
-
-/*--------------------------------------------------------------------------------------------------
-		SNS
-*/
-/* SNS 창				*/	#sns_window	{ position : relative; display : block; z-index : 4; padding : 0px; background:black; }
-/* sns 중간박스	*/	#sns_center	{ position : relative;	width : 100%; max-width : 1200px; left : 0px; right : 0px; margin : auto; }
-/* SNS 각 항목	*/	.snsobjects { margin-left : 10px; height:14px; width:auto; }
-
 
