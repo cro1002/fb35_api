@@ -118,6 +118,10 @@ $(window).on('hashchange', function(e){
 **/
 $(window).resize(function(){
 	
+	// 페이지뷰 수정된 높이속성이 있을 경우 제거
+	var pageviewEl = $('.pageview');
+	pageviewEl.css('height','');
+	
 	// 창크기가 변경된게 맞는지 확인( for IE8 )
 	var _newSize = croTools.getClientSize();
 	
@@ -138,6 +142,11 @@ $(window).resize(function(){
 	$(".draggable").each(function(i,e){
 		eBookCore.func.moveWindowIntoView($(e).parent());
 	});
+	
+	// 페이지뷰 크기가 화면을 넘어가면 안쪽으로 꽉 차게 수정
+	if(window.innerHeight < pageviewEl.offset().top+pageviewEl.height()){
+		pageviewEl.height( window.innerHeight - pageviewEl.offset().top );
+	}
 
 	$.doTimeout('wndResize', 100, eBookCore.pageTurn.resize); // 페이지 리사이즈 호출
 });
@@ -440,8 +449,10 @@ eBookCore.func.createSkinObjects = function() {
 		
 		case "window"	:	addElem = $("<div/>");				// 창화면(div) 생성
 										break;
-		case "image"		:	addElem = $("<img/>");			// 이미지(img) 생성
+		case "image"	:	addElem = $("<img/>");			// 이미지(img) 생성
 										addTabIndex(addElem);
+										break;
+		case "text"		: addElem = $("<span/>");			// 텍스트(span) 생성
 										break;
 		
 		/** 고유 속성 항목 */
@@ -563,6 +574,10 @@ eBookCore.func.createSkinObjects = function() {
 				_value && addElem.resizable();
 				break;
 			
+			case "text" : // text 타입일때 문자열 설정
+				addElem.text(_value);
+				break;
+				
 			/* 기본 속성 : id, class, src, title, tabindex ... */
 			case "src" : // 이미지 상대 경로 수정
 				_value = eBookCore.path.skin + eBookSkin.path.image + _value; // ./assets/theme/ + images/ + _value.jpg
@@ -1125,3 +1140,43 @@ eBookCore.func.loadPageContents = function(pageEl, pageNum) { // pageNum : 1 ~ t
 eBookCore.func.pdfDown = function(path) {
 	window.open(path?path:"./assets/contents/download.pdf","_blank");
 };
+
+/**	기본 로딩 화면
+**/
+eBookCore.func.showLoading = function() {
+	
+	var wndSize = croTools.getClientSize();
+	$("<canvas id='loading_area' width='"+wndSize.width+"' height='"+wndSize.height+"'></canvas>")
+		.css({
+			position	:'absolute',
+			background:'rgba(0,8,32,0.9)',
+			zIndex		:croTools.zTopMost,
+			width			:'100%',
+			height		:'100%',
+		})
+		.appendTo(document.body);
+	
+	eBookSkin.loadingLoop = setInterval(function(){
+
+		var cv	= $("#loading_area")[0];
+		if(!cv){
+			return clearInterval(this);
+		}
+		var ctx	= cv.getContext('2d');
+		ctx.clearRect(0,0,cv.width,cv.height);
+		
+		// 로딩 서클 그리기
+		croTools.canvasCircle(cv);
+		
+		// text
+		ctx.font				= '12pt Calibri';
+		ctx.textAlign		= 'right';
+		ctx.fillStyle		= 'white';
+		ctx.globalAlpha	= 0.75;
+		ctx.fillText('powered by E&IWORLD', cv.width-10, cv.height-10);
+		
+	},25);
+	
+	croTools.log("loading start");
+};
+
