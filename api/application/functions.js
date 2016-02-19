@@ -259,7 +259,7 @@ eBookCore.func.createSkinObjects = function() {
 				bookListEl.on("change", function(){ // 모바일 환경 : change 이벤트로 처리
 					var _sel = bookListEl.find("option:selected").first();
 					if( 0<_sel.length && 0<_sel.attr("value").length ){
-							window.open(_sel.attr("value"), _sel.attr("target"));
+						window.open(_sel.attr("value"), _sel.attr("target"));
 					}
 				});
 			}else{
@@ -453,6 +453,8 @@ eBookCore.func.createSkinObjects = function() {
 										addTabIndex(addElem);
 										break;
 		case "text"		: addElem = $("<span/>");			// 텍스트(span) 생성
+										break;
+		case "input"	: addElem = $("<input type='text'/>");		// 입력란(input) 생성
 										break;
 		
 		/** 고유 속성 항목 */
@@ -1139,6 +1141,20 @@ eBookCore.func.loadPageContents = function(pageEl, pageNum) { // pageNum : 1 ~ t
 **/
 eBookCore.func.pdfDown = function(path) {
 	window.open(path?path:"./assets/contents/download.pdf","_blank");
+};
+
+/**	검색어 태그객체로 검색창 띄우기
+**/
+eBookCore.func.searchByInput = function(id) {
+	var targetEl = $(id); // <input> element
+	
+	// 검색창 띄우기
+	eBookCore.func.wndShow(".searchlist");
+	
+	// 검색어 수정+keyup 이벤트 전달
+	var inputEl = $(".searchlist input.search_text");
+	inputEl.val( targetEl.val() );
+	inputEl.trigger("keyup");
 };
 
 /**	기본 로딩 화면

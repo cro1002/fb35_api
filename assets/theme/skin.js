@@ -37,6 +37,10 @@ eBookSkin.objects = [
 			{ type:"image"		, id:"menu_bookmark_btn"	, 'class':"menuobjects", src:"menu/bookmark.svg"	, title:"책갈피"		, click:"eFnc.wndToggle('#bookmarklist_window')"	},
 			{ type:"image"		, id:"menu_tablelist_btn"	, 'class':"menuobjects", src:"menu/tablelist.svg"	, title:"목차"			, click:"eFnc.wndToggle('#tablelist_window')"			},
 			{ type:"image"		, id:"menu_print_btn"			, 'class':"menuobjects", src:"menu/print.svg"			, title:"인쇄"			, click:"eFnc.runPrint()"											, visible:"pc"	},
+			{ type:"booklist"	, id:"booklist"	, 'class':"mainobjects"	},
+			
+			{ type:"image"		, id:"search_text_btn"		, 'class':"menuobjects", src:"menu/search.svg"		, title:"검색"			, click:"eFnc.searchByInput('#search_text')"		},
+			{ type:"input"		, id:"search_text", 'class':"mainobjects"	},
 		]},
 	]},
 	
@@ -52,10 +56,15 @@ eBookSkin.objects = [
 			{ type:"image"		, id:"menu_memo_btn_m"			, 'class':"menuobjects_m", src:"menu/memo.svg"			, title:"메모"			, click:"eFnc.runMemo()"													},
 			{ type:"image"		, id:"menu_bookmark_btn_m"	, 'class':"menuobjects_m", src:"menu/bookmark.svg"	, title:"책갈피"		, click:"eFnc.wndToggle('#bookmarklist_window')"	},
 			{ type:"image"		, id:"menu_tablelist_btn_m"	, 'class':"menuobjects_m", src:"menu/tablelist.svg"	, title:"목차"			, click:"eFnc.wndToggle('#tablelist_window')"			},
+			{ type:"booklist"	, id:"booklist_m"	, 'class':"mainobjects"	},
+			{ type:"image"		, id:"search_text_btn"		, 'class':"menuobjects", src:"menu/search.svg"		, title:"검색"			, click:"eFnc.searchByInput('#search_text')"		},
+			{ type:"input"		, id:"search_text", 'class':"mainobjects"	},
 		]},
 	]},
 
-	{ type:"pageview"	, id:"pageview"		},
+	
+	
+	{ type:"pageview"	, id:"pageview"	},
 	
 	// Bottom for PC
 	{ type:"window"		, id:"bottom_window"			, 'class':"mainobjects"	, visible:"pc"	, children:[
@@ -90,10 +99,10 @@ eBookSkin.objects = [
 	
 	
 	// Page Button for Mobile
-	{ type:"image"		, id:"quick_first_btn_m"	, 'class':"quickobjects_m", visible:"mobile"	,src:"quick/first.svg"	, title:"첫 페이지"		, click:"eFnc.gotoPage(1)"	},
-	{ type:"image"		, id:"quick_prev_btn_m"		, 'class':"quickobjects_m", visible:"mobile"	,src:"quick/prev.svg"		, title:"이전 페이지"	, click:"eFnc.gotoPrev()"		},
-	{ type:"image"		, id:"quick_next_btn_m"		, 'class':"quickobjects_m", visible:"mobile"	,src:"quick/next.svg"		, title:"다음 페이지"	, click:"eFnc.gotoNext()"		},
-	{ type:"image"		, id:"quick_last_btn_m"		, 'class':"quickobjects_m", visible:"mobile"	,src:"quick/last.svg"		, title:"끝 페이지"		, click:"eFnc.gotoPage(-1)"	},
+	{ type:"image"		, id:"quick_first_btn_m"	, 'class':"quickobjects_m", visible:"mobile"	,src:"quick/first_m.svg"	, title:"첫 페이지"		, click:"eFnc.gotoPage(1)"	},
+	{ type:"image"		, id:"quick_prev_btn_m"		, 'class':"quickobjects_m", visible:"mobile"	,src:"quick/prev_m.svg"		, title:"이전 페이지"	, click:"eFnc.gotoPrev()"		},
+	{ type:"image"		, id:"quick_next_btn_m"		, 'class':"quickobjects_m", visible:"mobile"	,src:"quick/next_m.svg"		, title:"다음 페이지"	, click:"eFnc.gotoNext()"		},
+	{ type:"image"		, id:"quick_last_btn_m"		, 'class':"quickobjects_m", visible:"mobile"	,src:"quick/last_m.svg"		, title:"끝 페이지"		, click:"eFnc.gotoPage(-1)"	},
 	
 	{ type:"tablelist"		, id:"tablelist_window"			,	draggable:true, resizable:true,	},	// 목차창
 	{ type:"bookmarklist"	, id:"bookmarklist_window"	,	draggable:true, resizable:true,	},	// 책갈피창
