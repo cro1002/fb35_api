@@ -1,3 +1,7 @@
+/*--------------------------------------------------------------------------------------------------
+		HTML Tags
+*/
+
 /* 내장 폰트 */
 @font-face {
 	font-family	: 'OpenSans-Bold';
@@ -110,7 +114,7 @@ div.tablelist { position : absolute;	left : 30%; top : 15%; min-width : 200px; m
 /*--------------------------------------------------------------------------------------------------
 		책갈피 창
 */
-div.bookmarklist { position : absolute;	left : 55%; top : 15%; min-width : 200px; max-width : 90%; width : 30%;	height : 400px; z-index : 6; display : none; border:1px solid black;
+div.bookmarklist { position : absolute;	left : 55%; top : 15%; min-width : 250px; max-width : 90%; width : 30%;	height : 400px; z-index : 6; display : none; border:1px solid black;
 	background: rgb(255,255,255); /* Old browsers */
 	background: -moz-linear-gradient(top,  rgb(255,255,255) 0%, rgb(229,229,229) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(255,255,255)), color-stop(100%,rgb(229,229,229))); /* Chrome,Safari4+ */
@@ -145,7 +149,7 @@ div.bookmarklist { position : absolute;	left : 55%; top : 15%; min-width : 200px
 }
 .bookmarklist li.contents img				{ display:inline-block; float:left; width:auto; height:100%; border:1px solid gray; }
 .bookmarklist li.contents span.page	{ position:absolute; left:5px; background-color:white; border:1px solid gray; border-radius:1em; font-size:0.75em; padding:0.2em 0.5em; margin-top:0.5em; }
-.bookmarklist li.contents p.text		{ margin:0px; padding:0px; color:#39C; font-size:0.8em; }
+.bookmarklist li.contents span.text		{ padding:0.5em; color:#39C; }
 
 /* 검색 목록 */
 
@@ -237,6 +241,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #pageview{ position:absolute; left:0px; right:0px; margin:auto; top:95px; max-width:1200px; width:100%; height:80%; min-height:50px; z-index:2; border:0px; background: rgba(0,0,0,0); overflow:hidden; }
 
 /* 이전호 목록 */		#booklist		{ position : absolute;	left:0px;	top:57px;	max-width : 200px; width:30%;	height:30px; font-size:12px; background:#f5f5f5; }
+#booklist_m		{ position : absolute;	left:10px;	top:57px;	max-width : 200px; width:30%;	height:30px; font-size:12px; background:#f5f5f5; }
+
+#search_window		{ position:absolute; top:57px; width:30%; height:24px; right:10px; border:1px solid gray; border-radius:4px; }
+#search_text			{ position:absolute; width:90%; height:100%; left:5px; background:rgba(0,0,0,0); border:0px; z-index:1; }
+#search_text_btn	{ width:auto; height:20px; right:5px; z-index:2; }
+
+#search_text_m			{ position : absolute;	top:57px; max-width:200px; width:30%; height:24px; right:35px; background:rgba(0,0,0,0); border:0px; border-bottom:1px solid gray;}
+#search_text_btn_m	{ position : absolute;	top:110px; width:auto; height:24px; right:10px; }
 
 /*--------------------------------------------------------------------------------------------------
 		도구 메뉴
@@ -279,10 +291,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #quick_first_btn { height:20px; margin-bottom:5px; }
 #quick_last_btn { height:20px; margin-bottom:5px; }
 .quicktexts { color:gray; position:relative; bottom:10px; font-size:10px; }
-#bottom_window { position : absolute;	z-index : 4; width:100%; max-width:1200px; height:30px; left:0px; right:0px; bottom:15px; margin:auto; text-align:right; }
-#bottom_window_m { position : absolute;	z-index : 4; width:100%; max-width:1200px; height:30px; left:0px; right:0px; bottom:15px; margin:auto; text-align:center; }
-#quick_prev_btn { margin-right:3%; }
-#quick_next_btn { margin-left:3%; }
+#bottom_window { position : absolute;	z-index : 4; width:100%; max-width:1200px; height:30px; left:0px; right:0px; bottom:15px; margin:auto; text-align:center; }
+
 
 /*--------------------------------------------------------------------------------------------------
 		섬네일

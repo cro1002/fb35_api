@@ -222,9 +222,12 @@ eBookCore.func.initializeApplication = function() {
 eBookCore.func.createSkinObjects = function() {
 
 	/**	탭 인덱스 등록 */
-	var addTabIndex = function(e){
-		if(isNaN(e.attr("tabindex"))){ // 따로 지정하지 않은 경우 자동 추가
+	var addTabIndex = function(e, tabIndex){
+		if(isNaN(tabIndex)){ // 따로 지정하지 않은 경우 자동 추가
 				e.attr("tabindex", 0);
+		}else
+		if(0>tabIndex){ // 탭인덱스 -1 지정시 선택되지 않게 함
+			e.on("focus",function(el){ $(el.target).blur(); });
 		}
 	};
 	
@@ -460,7 +463,7 @@ eBookCore.func.createSkinObjects = function() {
 		case "window"	:	addElem = $("<div/>");				// 창화면(div) 생성
 										break;
 		case "image"	:	addElem = $("<img/>");			// 이미지(img) 생성
-										addTabIndex(addElem);
+										addTabIndex(addElem, obj.tabindex);
 										break;
 		case "text"		: addElem = $("<span/>");			// 텍스트(span) 생성
 										break;
@@ -835,7 +838,7 @@ eBookCore.func.bookmarkListUpdate = function(listUl) {
 		addEl.html(
 				"<img src='"+eBookCore.path.thumb + i + "." + eBookData.pageExt+"' />"
 			+	"<span class='page'>"+ i +"</span>"
-			+	"<span class='text'>" + (eBookData.textList[i-1] ? eBookData.textList[i-1].substr(0,50) : "") + "...</span>" )
+			+	"<p class='text'>" + (eBookData.textList[i-1] ? eBookData.textList[i-1].substr(0,50) : "") + "...</p>" )
 			.on(eBookCore.eventType.keyclick, function(e){
 				eBookCore.eventType.isExcute(e) && eBookCore.func.gotoPage( parseInt( $(e.target).closest('li').find('.page').text() ) );
 		});
