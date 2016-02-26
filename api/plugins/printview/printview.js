@@ -21,7 +21,7 @@ eBookCore.plugins.printView.open = function(_pageUrl, _pageExt, _currentPageNum,
 		+	"<input name='pageRange' type='radio' id='printPageCurr'  value='current' checked=''checked' />"	+ "<label for='printPageCurr'>"+eBookCore.getString("currentPage")+"("+_currentPageNum+")</label><br/>"
 		+	"<input name='pageRange' type='radio' id='printPageRange' value='range' />"												+ "<label for='printPageRange'>"+eBookCore.getString("selectRange")+"</label><br/>"
 		+	"<div style='text-indent:1.5em; '>"
-		+	"	<select id='print_page_st' dir='rtl' disabled/>" + "<span> ─ </span>" + "<select id='print_page_ed' dir='rtl' disabled/>"
+		+	"	<select id='print_page_st' dir='rtl' disabled/>" + "<span> ~ </span>" + "<select id='print_page_ed' dir='rtl' disabled/>"
 		+	"</div>"
 		+	"<input name='pageRange'	type='radio' id='printPageAll' value='all' />"											+ "<label for='printPageAll'>"+eBookCore.getString("allPages")+"</label><br/><br/>"
 	//	+	"<input id='print_ratio_iso'	type='checkbox' />"														+ "<span>ISO 표준 규격 비율</span><br/><br/>"
@@ -56,7 +56,7 @@ eBookCore.plugins.printView.open = function(_pageUrl, _pageExt, _currentPageNum,
 	// 선택페이지 범위 변경 이벤트 처리
 	$("#printOptions select").on("change", function(e){
 		
-		var _stNum		= parseInt( $("#print_page_st option:selected").val() );
+		var _stNum	= parseInt( $("#print_page_st option:selected").val() );
 		var _edNum	= parseInt( $("#print_page_ed option:selected").val() );
 		
 		if(_stNum > _edNum){ // 올바르지 않은 범위 선택시 값을 재조정
@@ -79,7 +79,7 @@ eBookCore.plugins.printView.open = function(_pageUrl, _pageExt, _currentPageNum,
 	// 인쇄 버튼 이벤트 처리
 	$("#print_ok").on("click", function(){
 		$("#printPreviewContents").print({
-			globalStyles							: false,
+			globalStyles						: false,
 			mediaPrint							: false,
 			stylesheet							: null,
 			iframe									: false, // 디버그시 false 로 출력될 예상결과 확인

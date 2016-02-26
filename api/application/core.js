@@ -222,8 +222,8 @@ eBookCore.components	= {
 		// video,audio에서 불필요한 속성 제거
 		e.attr({'width':'','height':''}).css({ 'left' : '', 'top' : '' });
 		
-		// 자동실행 컴포넌트 처리
-		if(!croTools.isMobile()){ // 모바일환경에선 자동실행 사용 안함
+		// 자동실행 컴포넌트 처리( 모바일환경에선 자동실행 사용 안함, VIDEO 자동실행 안함, AUDIO는 autoplay 속성 체크 )
+		if(!croTools.isMobile() && "VIDEO"!==e[0].tagName && "true"===eBookCore.getDataById(e[0].id).autoplay){
 			var _pageNum	= eBookCore.getPageNumById(e.attr("id"));
 			var _pageNums	= eBookCore.pageTurn.getVisiblePageNumbers();
 			if(!_pageNums){ return croTools.log("failed : getVisiblePageNumbers"); }
@@ -305,4 +305,21 @@ eBookCore.getPageNumById = function(id){
 		}
 	}
 	return croTools.log("not found page number : unknown id="+id);
+};
+
+/**-------------------------------------------------------------------------------------------------
+*		컨텐츠 ID값으로 컨텐츠정보 반환
+*/
+eBookCore.getDataById = function(id){
+	var _cont = eBookData.pageContents;
+	for(var i=0; i<_cont.length; ++i){
+		for(var k=1; k<_cont[i].length; ++k){
+			var _data = _cont[i][k];
+			
+			if(_cont[i][k].id===id){
+				return _cont[i][k];
+			}
+		}
+	}
+	return croTools.log("not found data : unknown id="+id);
 };

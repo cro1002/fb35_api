@@ -75,40 +75,4 @@ eBookSkin.objects = [
 
 /** 로딩화면 생성
 **/
-(eBookSkin.loading = function(_stTime) {
-
-	var wndSize = croTools.getClientSize();
-	$("<canvas id='loading_area' width='"+wndSize.width+"' height='"+wndSize.height+"'></canvas>")
-		.css({
-			position	:'absolute',
-			background:'rgba(0,8,32,0.9)',
-			zIndex		:2147483647,
-			width			:'100%',
-			height		:'100%',
-		})
-		.appendTo(document.body);
-	
-	eBookSkin.loadingLoop = setInterval(function(){
-
-		var cv	= $("#loading_area")[0];
-		if(!cv){
-			return clearInterval(this);
-		}
-		var ctx	= cv.getContext('2d');
-		ctx.clearRect(0,0,cv.width,cv.height);
-		
-		// 로딩 서클 그리기
-		croTools.canvasCircle(cv);
-		
-		// text
-		ctx.font				= '12pt Calibri';
-		ctx.textAlign		= 'right';
-		ctx.fillStyle		= 'white';
-		ctx.globalAlpha	= 0.75;
-		ctx.fillText('powered by E&IWORLD', cv.width-10, cv.height-10);
-		
-	},25);
-	
-	croTools.log("loading start");
-	
-})(new Date().getTime());
+eFnc.showLoading();

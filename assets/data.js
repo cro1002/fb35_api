@@ -14,6 +14,8 @@ var eBookData = {
 	logoUrl			: "http://www.google.com/",	// 로고 클릭시 링크
 	homeUrl			: "http://www.ebook.co.kr",	// 홈버튼 링크
 	
+	useBooklist	: true, // 이전호 목록 사용여부
+	
 	pageView : { /** 페이지 넘김 속성 */
 		type			: "click",	// pageView.type + .js
 		side			: "auto",	// 페이지 표시 양단면 설정 : auto, single, double
