@@ -114,7 +114,9 @@ eBookCore.pageTurn.update = function(pageNum){
 eBookCore.pageTurn.getVisiblePageNumbers = function(){
 	var retNumbers = [];
 	$(".pageview .viewframe [page]:visible").each(function(i,e){
-		retNumbers.push( parseInt( $(e).attr("page") ) );
+		if( eBookData.totalPageNum === parseInt( $(e).css("z-index") ) ){
+			retNumbers.push( parseInt( $(e).attr("page") ) );
+		}
 	});
 	return retNumbers;
 };

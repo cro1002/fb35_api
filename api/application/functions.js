@@ -332,8 +332,14 @@ eBookCore.func.createSkinObjects = function() {
 		blindEl.on("click", function(){
 			eBookCore.func.wndHide(thumbListEl);
 		});
+		
+		var contentsEl = $("<div class='contents' ><ul/></div>");
+		contentsEl.on("click", function(){
+			eBookCore.func.wndHide(thumbListEl);
+		});
+		
 		thumbListEl.append(blindEl);
-		thumbListEl.append("<div class='contents' ><ul/></div>");
+		thumbListEl.append(contentsEl);
 	};
 	
 	/**	검색 기능 생성 */
@@ -1098,7 +1104,7 @@ eBookCore.func.thumbnailImageUpdate = function(pageNum) { // pageNum : 1 ~ total
 					return eBookCore.eventType.isExcute(f) && eBookCore.func.gotoPage(_num) && eBookCore.func.wndHide(".thumblist");
 				});
 		});
-	
+		
 	}else{
 		thumbUL.find(".on").removeClass("on");
 

@@ -25,7 +25,7 @@ eBookSkin.objects = [
 	{ type:"window"		, id:"top_window"				, 'class':"mainobjects", children:[
 		{ type:"window"		, id:"top_center"				, 'class':"mainobjects", children:[
 			{ type:"image"		, id:"top_search_btn"		, 'class':"topobjects", src:"search.svg"		, title:"검색"			, click:"eFnc.wndToggle('#searchlist_window')"		},
-			{ type:"logo"			, id:"top_logo"	, src:"logo.svg"					, title:"로고이미지"	},
+			{ type:"logo"			, id:"top_logo"	, src:"logo.png"					, title:"로고이미지"	},
 			{ type:"booklist"	, id:"booklist"	, 'class':"topobjects"	},
 			
 			{ type:"window"		, id:"top_mobile"		, 'class':"mainobjects", visible:"mobile", children:[
@@ -48,7 +48,7 @@ eBookSkin.objects = [
 	{ type:"image"		, id:"quick_prev_btn_m"		, 'class':"quickobjects_m"		, src:"quick/prev.svg"		, title:"이전 페이지"	, visible:"mobile", click:"eFnc.gotoPrev()"		},
 	{ type:"image"		, id:"quick_next_btn_m"		, 'class':"quickobjects_m"		, src:"quick/next.svg"		, title:"다음 페이지"	, visible:"mobile", click:"eFnc.gotoNext()"		},
 	{ type:"image"		, id:"quick_last_btn_m"		, 'class':"quickobjects_m"		, src:"quick/last.svg"		, title:"끝 페이지"		, visible:"mobile", click:"eFnc.gotoPage(-1)"	},
-			
+	
 	// bottom for PC
 	{ type:"window"		, id:"bottom_window"			, 'class':"mainobjects"	, visible:"pc", children:[
 		{ type:"window"		, id:"bottom_center"			, 'class':"mainobjects"	, children:[

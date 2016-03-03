@@ -17,7 +17,7 @@ var eBookData = {
 	useBooklist	: true, // 이전호 목록 사용여부
 	
 	pageView : { /** 페이지 넘김 속성 */
-		type			: "click",	// pageView.type + .js
+		type			: "flip",	// pageView.type + .js
 		side			: "auto",	// 페이지 표시 양단면 설정 : auto, single, double
 		duration	: 600,		// 페이지 전환 속도
 		cover			: true,		// 커버페이지 사용여부 : added 15.10.07
@@ -45,11 +45,11 @@ var eBookData = {
 	
 	pageContents : [ /** 페이지 컨텐츠 */
 		[	1,
-			{ type:"action", id:"Interaction11435134959473", name:"액션1", height:"16", width:"17", y:"574", x:"900", dispatcher:"Text11435053604405", event:"onRelease", target:"Mp3Player11435050111825", action:"toggleVisible",  },
+			{ type:"action", id:"Interaction11435134959473", name:"액션1", height:"16", width:"30", y:"100", x:"100", dispatcher:"Text11435053604405", event:"onRelease", target:"Mp3Player11435050111825", action:"toggleVisible",  },
 			{ type:"text", id:"Text11435053604405", name:"글상자1", height:"231", width:"205", y:"524", x:"116", text:"테스트\n1234\n가나다\nabbcc\n100", font:"바탕", textHeight:"24", letterSpacing:"0", leading:"0", align:"left", bold:"false", italic:"false", underline:"false", textColor:"0x000000,100", backgroundColor:"0xFFFFFF,50", borderColor:"0x000000,100", borderWidth:"1", link:"",  },
-			{ type:"audio", id:"Mp3Player11435050111825", name:"MP3플레이어1", height:"60", width:"320", y:"393", x:"705", borderWidth:"1", musicURL:"0910253195.mp3", autoplay:"true", scale:"1",  },
-			{ type:"video", id:"Movie11435050026485", name:"동영상1", height:"450", width:"550", y:"538", x:"296", movieURL:"0910237787.mp4", normalImage:"0910232846.jpg", borderColor:"0x000000,100", borderWidth:"1",  },
-			{ type:"link", id:"Link11435050004029", name:"링크1", height:"211", width:"329", y:"130", x:"720", backgroundColor:"0xffffff,50", rolloverColor:"0xff00ff,50", borderColor:"0x000000,0", borderWidth:"1", link:"address|_blank|http://www.ebook.co.kr/",  },
+			{ type:"audio", id:"Mp3Player11435050111825", name:"MP3플레이어1", height:"60", width:"320", y:"393", x:"405", borderWidth:"1", musicURL:"0910253195.mp3", autoplay:"true", scale:"1",  },
+			{ type:"video", id:"Movie11435050026485", name:"동영상1", height:"450", width:"550", y:"500", x:"250", movieURL:"0910237787.mp4", normalImage:"0910232846.jpg", borderColor:"0x000000,100", borderWidth:"1",  },
+			{ type:"link", id:"Link11435050004029", name:"링크1", height:"211", width:"229", y:"130", x:"520", backgroundColor:"0xffffff,50", rolloverColor:"0xff00ff,50", borderColor:"0x000000,0", borderWidth:"1", link:"address|_blank|http://www.ebook.co.kr/",  },
 			{ type:"image", id:"Image11435049946157", name:"그림1", height:"264", width:"395", y:"119", x:"262", normalImage:"0910095317.jpg", rolloverImage:"0910127987.jpg", borderColor:"0x000000,100", borderWidth:"1", link:"popup|0|0|300|300|FBookLinkWindow|http://www.google.com/(_-__-_)300(_-__-_)300|false|false|false", originalSize:"false", }
 		],
 		[	3,

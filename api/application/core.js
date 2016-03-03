@@ -54,6 +54,10 @@ eBookCore.components	= {
 		var _data = eBookCore.components.data[e.attr("id")];
 		var _ratio = eBookCore.pageTurn.getZoomRatio();
 		
+		if("false"===_data.visible){
+			e.css("visibility","hidden");
+		}
+		
 		if(0<e.closest(".mejs-container").length){ // e : video,audio
 			
 			e.css({
@@ -112,7 +116,7 @@ eBookCore.components	= {
 			
 			var targetEl = getElById(_data.target);
 			if(!targetEl){ return croTools.log("action target not found : " + _data.target) }
-			targetEl.toggle();
+			targetEl.css('visibility', targetEl.css('visibility') == 'hidden' ? 'visible' : 'hidden' );//targetEl.toggle();
 		});
 		
 	},
@@ -220,7 +224,7 @@ eBookCore.components	= {
 		}
 	
 		// video,audio에서 불필요한 속성 제거
-		e.attr({'width':'','height':''}).css({ 'left' : '', 'top' : '' });
+		e.attr({'width':'','height':''}).css({ left:'', top:'', visibility:'' });
 		
 		// 자동실행 컴포넌트 처리( 모바일환경에선 자동실행 사용 안함, VIDEO 자동실행 안함, AUDIO는 autoplay 속성 체크 )
 		if(!croTools.isMobile() && "VIDEO"!==e[0].tagName && "true"===eBookCore.getDataById(e[0].id).autoplay){

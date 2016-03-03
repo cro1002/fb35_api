@@ -24,7 +24,7 @@ eBookSkin.objects = [
 	{ type:"window"		, id:"top_window"				, 'class':"mainobjects", children:[
 		{ type:"window"		, id:"top_center"				, 'class':"mainobjects", children:[
 			{ type:"image"		, id:"top_search_btn"		, 'class':"topobjects", src:"search.svg"		, title:"검색"			, click:"eFnc.wndToggle('#searchlist_window')"		},
-			{ type:"logo"			, id:"top_logo"						, src:"logo.png"					, title:"로고이미지"	},
+			{ type:"logo"			, id:"top_logo"						, src:"logo.svg"					, title:"로고이미지"	},
 			{ type:"image"		, id:"top_menu_btn"		, 'class':"topobjects", src:"menu.svg"		, title:"메뉴"			, click:"eFnc.wndToggle('#menu_window')"		},
 			{ type:"window"		, id:"menu_window"			, 'class':"mainobjects"		, children:[
 				{ type:"window"		, id:"arrow_up"			, 'class':"mainobjects" },

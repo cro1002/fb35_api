@@ -291,10 +291,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #quick_next_btn				{ left:40%; }
 #quick_last_btn				{ left:43%; }
 
-#quick_first_btn_m		{ left:14px; width:12px; }
-#quick_prev_btn_m			{ left:10px; top:80px; }
-#quick_next_btn_m			{ right:10px; top:80px; }
-#quick_last_btn_m			{ right:14px; width:12px; }
+#quick_first_btn_m		{ left:24px; width:12px; }
+#quick_prev_btn_m			{ left:20px; top:80px; }
+#quick_next_btn_m			{ right:20px; top:80px; }
+#quick_last_btn_m			{ right:24px; width:12px; }
 
 #menu_tablelist_btn	{ right : 35%; }
 #menu_bookmark_btn	{ right : 30%; }
