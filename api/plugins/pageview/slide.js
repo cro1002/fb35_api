@@ -363,6 +363,9 @@ eBookCore.pageTurn.resize = function(){
 	eBookCore.pageTurn.moveSlide();
 	// 북마크도 다시 추가
 	eBookCore.func.bookmarkUpdate();
+	
+	// 컴포넌트 리셋
+	eBookCore.func.componentsReset();
 };
 
 

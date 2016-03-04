@@ -166,6 +166,8 @@ eBookCore.pageTurn.resize = function(){
 		viewframe.turn("display",	_displaySingle ? "single" : "double"	);
 	}
 
+	// 컴포넌트 리셋
+	eBookCore.func.componentsReset();
 };
 
 
