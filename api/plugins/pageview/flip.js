@@ -69,7 +69,7 @@ eBookCore.pageTurn.init = function(){
 		gradients	: true,	// Enable gradients
 		autoCenter: true,	// Auto center this flipbook
 		when			: {
-			
+
 			turned : function(e, pageNum, pageObj) {
 				croTools.log("page turned : "+pageNum);
 				eBookCore.func.setCurrentPageNum(pageNum); // 페이지를 직접 드래그하여 넘길 경우 현재 페이지 번호 설정하기 위해 추가
@@ -164,6 +164,9 @@ eBookCore.pageTurn.resize = function(){
 	if(0<viewframe.children().length){
 		viewframe.turn("size",		_frameWidth-40, _frameHeight-40				);
 		viewframe.turn("display",	_displaySingle ? "single" : "double"	);
+		
+		// 단면보기시 뒷면이 흰색이 표시되게 수정
+		viewframe.find(".p-temporal").css({backgroundColor:'white'});
 	}
 
 	// 컴포넌트 리셋
