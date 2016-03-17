@@ -138,6 +138,10 @@ div#ebookdrawing div#drawingmenubar img.drawingBtns.redo {
 	opacity : 0.25;
 }
 
+div#ebookdrawing div#drawingmenubar img.drawingBtns.download {
+	display:none; /* 다운받기 감춤 */
+}
+
 div#ebookdrawing div#drawingmenubar img.drawingBtns.close {
-	margin-left : 4em;
+	margin-left : 6em;
 }

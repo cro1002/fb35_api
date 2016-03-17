@@ -238,6 +238,8 @@ eBookCore.func.createSkinObjects = function() {
 		_addEl.on(eBookCore.eventType.keyclick, function(e){
 			eBookCore.eventType.isExcute(e) && window.open(_url, "_blank");
 		});
+		
+		_addEl.css("cursor", "pointer"); // 마우스 커서 버튼형으로 설정
 	};
 	
 	/**	이전 호 목록창 생성 */
@@ -898,10 +900,12 @@ eBookCore.func.bookmarkUpdate = function(){
 	if(!_pageNums){ return croTools.log("failed : getVisiblePageNumbers"); }
 	for(var i=0; i<_pageNums.length; ++i){
 		
+		var isActivated = eBookCore.func.isMarked( _pageNums[i] );
+		
 		var bookmarkObj
 			= $("<img/>")
-					.attr({	'class'			: 'bookmark',
-									'src'				: eBookCore.path.skin + eBookSkin.path.image + "bookmark.png",
+					.attr({	'class'			: isActivated ? 'bookmark activate' : 'bookmark',
+									'src'				: eBookCore.path.skin + eBookSkin.path.image + (isActivated ? "bookmark_yes.svg" : "bookmark_no.svg"),
 									'tabindex'	: 0,
 									'title'			: eBookCore.getString('bookmark')
 					});
@@ -911,10 +915,6 @@ eBookCore.func.bookmarkUpdate = function(){
 			eBookCore.func.bookmarkToggle( parseInt( $(e.target).closest("[page]").attr("page") ) );
 			eBookCore.func.bookmarkUpdate(); // 책갈피 갱신
 		});
-		
-		if( eBookCore.func.isMarked( _pageNums[i] ) ){ // 활성화된 책갈피는 투명도 해제
-			bookmarkObj.addClass("activate");
-		}
 		
 		eBookCore.pageTurn.addBookmarkToPage( _pageNums[i], bookmarkObj );
 	}
