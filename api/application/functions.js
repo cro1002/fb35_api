@@ -233,7 +233,10 @@ eBookCore.func.createSkinObjects = function() {
 	
 	/**	링크 열기 이벤트 등록 */
 	var addOpenUrl = function(_addEl, _url){
-		if(_url.replace("http://","").length < 1){ return croTools.log("addOpenUrl : invalid open url = "+_url); } // URL 유효성 검사
+		if(_url.replace("http://","").length < 1){ // URL 유효성 검사
+			_addEl.css("opacity", "0.2"); // 버튼을 반투명으로 설정
+			return croTools.log("addOpenUrl : invalid open url = "+_url);
+		}
 		
 		_addEl.on(eBookCore.eventType.keyclick, function(e){
 			eBookCore.eventType.isExcute(e) && window.open(_url, "_blank");

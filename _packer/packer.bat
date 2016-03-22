@@ -5,6 +5,8 @@ set DSTDIR=..\api_min\
 echo.SRC=%SRCDIR%
 echo.DST=%DSTDIR%
 
+copy %SRCDIR%plugins\resource.js %DSTDIR%plugins\resource.js /Y
+
 call::fncCompYUI import.js
 
 call::fncCompCC application\core.js

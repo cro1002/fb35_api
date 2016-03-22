@@ -276,7 +276,9 @@ eBookCore.string = {
 	opacity				: { en:"opacity"			,	ko:"불투명도"				},
 	enter_pwd			: { en:"Please enter your password"		,	ko:"암호를 입력해 주세요"	},
 	submit				: { en:"submit"				,	ko:"확인"						},
-	incorrect_pwd	: { en:"You entered an incorrect password"	,	ko:"틀린 암호를 입력하셨습니다"	}
+	incorrect_pwd	: { en:"You entered an incorrect password"	,	ko:"틀린 암호를 입력하셨습니다"	},
+	pen						: { en:"pen"		,	ko:"펜"	},
+	marker				: { en:"marker"	,	ko:"마커"	}
 };
 
 

@@ -7,7 +7,7 @@ eBookCore.plugins.drawing = {
 	
 	drawingData		: {},
 	
-	colors				: ['#ee6084', '#fff273', '#c8ffbc', '#00bec3', '#b6e4ff', '#8f96ff', '#000', '#fff'],
+	colors				: ['rgba(238,96,132,1.0)', 'rgba(255,242,115,1.0)', 'rgba(200,255,188,1.0)', 'rgba(0,190,195,1.0)', 'rgba(182,228,255,1.0)', 'rgba(143,150,255,1.0)', 'rgba(0,0,0,1.0)', 'rgba(255,255,255,1.0)'],
 	colorKeys			: ['Q', 'W', 'E', 'R', 'A', 'S', 'D', 'F'],
 	sizes					: [3, 6, 9, 12, 15],
 	sizeKeys			: ['1', '2', '3', '4', '5'],
@@ -16,7 +16,7 @@ eBookCore.plugins.drawing = {
 	options				: {
 		toolLinks			: true,
 		defaultTool		: 'marker',
-		defaultColor	: '#ee6084',
+		defaultColor	: 'rgba(238,96,132,1.0)',
 		defaultSize		: 9
 	},
 
@@ -134,6 +134,26 @@ eBookCore.plugins.drawing.run = function(_currentPageNum){
 		});
 	}
 
+	
+	// 펜,마커 토글 버튼
+	drawingMenuEl.append($('<img class="drawingBtns opacity" src="'+eBookCore.resource.pen+'" title="'+eBookCore.getString('pen')+'(P)" />').on(eBookCore.eventType.click,function(e){
+		var colorEl = $("#drawingcolors .drawingColors");
+		var isPen = (-1 < colorEl.eq(0).attr("data-color").indexOf("1.0"));
+		colorEl.each(function(i,col){
+			col = $(col);
+			var oldColor = col.attr("data-color");
+			col.attr("data-color", oldColor.replace(isPen?"1.0":"0.5",isPen?"0.5":"1.0"));
+		});
+		
+		// 현재 사용색상 변경
+		$("#ebookdrawingCanvas").sketch().color = $("#ebookdrawingCanvas").sketch().color.replace(isPen?"1.0":"0.5",isPen?"0.5":"1.0");
+		
+		// 아이콘 변경
+		e.target.src		= isPen ? eBookCore.resource.marker : eBookCore.resource.pen;
+		e.target.title	= isPen ? eBookCore.getString('marker') : eBookCore.getString('pen');
+	}));
+	
+	
 	// 불투명도 토글 버튼
 	drawingMenuEl.append($('<img class="drawingBtns opacity" src="'+eBookCore.resource.layer+'" title="'+eBookCore.getString('opacity')+'(SHIFT)" />').on(eBookCore.eventType.click,function(){
 		var cvEl = $("#ebookdrawingCanvas");
