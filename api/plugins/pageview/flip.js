@@ -76,7 +76,7 @@ eBookCore.pageTurn.init = function(){
 				eBookCore.func.componentsReset();// 페이지 넘김 후 새 페이지 번호로 화면 갱신
 				
 				/** 확대축소 이벤트 재등록 : turnjs 특성상 사라진 페이지를 다시 추가하면 이전 이벤트가 제거되어있으므로 재등록함 */
-				$("#pageview .target:visible")
+				$(".pageview .target:visible")
 					.off(eBookCore.eventType.dblclick)
 					.on (eBookCore.eventType.dblclick, function(e){
 						eBookCore.plugins.zoomview.run($(e.target));
@@ -131,9 +131,13 @@ eBookCore.pageTurn.addBookmarkToPage = function(pageNum, addObj){
 
 /**	★ 페이지 표시 크기 반환
 **/
-eBookCore.pageTurn.getZoomRatio = function(){
+eBookCore.pageTurn.getZoomRatio = function(type){
 	var _page = $(".pageview .viewframe [page]:visible").first();
-	return _page.width() / eBookCore.pageOrigWidth;
+	//return _page.width() / eBookCore.pageOrigWidth;
+	if(type){
+		return ("w"===type.toLowerCase()) ? _page.width() / eBookCore.pageOrigWidth : _page.height() / eBookCore.pageOrigHeight;
+	}
+	return (eBookCore.pageOrigWidth > eBookCore.pageOrigHeight) ? _page.width() / eBookCore.pageOrigWidth : _page.height() / eBookCore.pageOrigHeight;
 };
 
 

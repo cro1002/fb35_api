@@ -8,6 +8,7 @@ var eBookCore = {};
 /** 맴버 변수 정의&초기화 */
 eBookCore.currentPageNum	= null;	// 현재 페이지 번호
 eBookCore.pageOrigWidth		= 0;		// 페이지 원본 이미지 너비
+eBookCore.pageOrigHeight	= 0;		// 페이지 원본 이미지 높이
 eBookCore.thumbRatio			= 1;		// 섬네일 가로세로비
 eBookCore.path						= {};		// 파일경로
 eBookCore.eventType				= {};		// 키,마우스,터치 이벤트 속성
@@ -52,7 +53,9 @@ eBookCore.components	= {
 	resizing : function(e)	{
 		e = $(e);
 		var _data = eBookCore.components.data[e.attr("id")];
-		var _ratio = eBookCore.pageTurn.getZoomRatio();
+		//var _ratio = eBookCore.pageTurn.getZoomRatio();
+		var _ratioW = eBookCore.pageTurn.getZoomRatio('w');
+		var _ratioH = eBookCore.pageTurn.getZoomRatio('h');
 		
 		if("false"===_data.visible){
 			e.css("visibility","hidden");
@@ -61,29 +64,29 @@ eBookCore.components	= {
 		if(0<e.closest(".mejs-container").length){ // e : video,audio
 			
 			e.css({
-				'width'		: (_ratio * parseInt(_data.width))	+ 'px',
-				'height'	: (_ratio * parseInt(_data.height))	+ 'px'
+				'width'		: (_ratioW * parseInt(_data.width))	+ 'px',
+				'height'	: (_ratioH * parseInt(_data.height))	+ 'px'
 			});
 			
 			e = e.closest(".mejs-container");
 			e.css({
-				'left'		: (_ratio * parseInt(_data.x))			+ 'px',
-				'top'			: (_ratio * parseInt(_data.y))			+ 'px',
-				'width'		: (_ratio * parseInt(_data.width))	+ 'px',
-				'height'	: (_ratio * parseInt(_data.height))	+ 'px'
+				'left'		: (_ratioW * parseInt(_data.x))			+ 'px',
+				'top'			: (_ratioH * parseInt(_data.y))			+ 'px',
+				'width'		: (_ratioW * parseInt(_data.width))	+ 'px',
+				'height'	: (_ratioH * parseInt(_data.height))	+ 'px'
 			});
 			return;
 		}
 		
 		e.css({
-			'left'		: (_ratio * parseInt(_data.x))			+ 'px',
-			'top'			: (_ratio * parseInt(_data.y))			+ 'px',
-			'width'		: (_ratio * parseInt(_data.width))	+ 'px',
-			'height'	: (_ratio * parseInt(_data.height))	+ 'px'
+			'left'		: (_ratioW * parseInt(_data.x))			+ 'px',
+			'top'			: (_ratioH * parseInt(_data.y))			+ 'px',
+			'width'		: (_ratioW * parseInt(_data.width))	+ 'px',
+			'height'	: (_ratioH * parseInt(_data.height))	+ 'px'
 		});
 		
 		if(!isNaN(_data.textHeight)){ // text component
-			e.css( 'font-size', (_ratio * parseInt(_data.textHeight))	+ 'px' );
+			e.css( 'font-size', (_ratioH * parseInt(_data.textHeight))	+ 'px' );
 		}
 	},
 	
@@ -278,7 +281,8 @@ eBookCore.string = {
 	submit				: { en:"submit"				,	ko:"확인"						},
 	incorrect_pwd	: { en:"You entered an incorrect password"	,	ko:"틀린 암호를 입력하셨습니다"	},
 	pen						: { en:"pen"		,	ko:"펜"	},
-	marker				: { en:"marker"	,	ko:"마커"	}
+	marker				: { en:"marker"	,	ko:"마커"	},
+	sns_msg				: { en:"I introduce my NexBook.", ko:"저의 NexBook을 소개합니다."}
 };
 
 

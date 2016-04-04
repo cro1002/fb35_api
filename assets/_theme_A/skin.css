@@ -49,7 +49,7 @@ img:focus, select:focus, span:focus, li:focus {
 /* 책갈피 이미지 */		.pageview img.bookmark			{ position:absolute; width:5%; height:auto; cursor:pointer; top:-5px; left:0px; right:0px; margin:auto; opacity:0.25; filter:alpha(opacity=25); }
 									.pageview img.bookmark:hover			{ opacity:0.5; filter:alpha(opacity=50); border:3px dotted #DDDDDD; }
 									.pageview img.bookmark.activate	{ opacity:0.5 !important; filter:alpha(opacity=50) !important; }
-									
+
 /* 창 끌기바(공통속성) */
 .draggable		{ width:100%; left:0px; top:-52px; position:absolute; margin:0px; font-weight:bold; color:#51545B; z-index:10; background: #E3E3E3; border: 1px solid #E3E3E3;}
 .draggable p		{ margin:1.1em; font-size:0.9em; }
@@ -118,83 +118,80 @@ div.searchlist { position:absolute; left : 30%; top : 15%; min-width : 250px; ma
 }
 
 /* 페이지 표시 영역 */
-#pageview{ position:absolute; left:0px; right:0px; margin:auto; top:50px; max-width:1400px; width:100%; height:85%; min-height:50px; z-index:2; border:0px; background: rgba(0,0,0,0); overflow:hidden; }
-#pageview_m{ position:absolute; left:0px; right:0px; margin:auto; top:45px; max-width:1400px; width:100%; height:90%; min-height:50px; z-index:2; border:0px; background: rgba(0,0,0,0); overflow:hidden; }
+#pageview{ position:absolute; left:0px; right:0px; margin:auto; top:90px; max-width:1400px; width:100%; height:85%; min-height:50px; z-index:2; border:0px; background: rgba(0,0,0,0); overflow:hidden; }
+#pageview_m{ position:absolute; left:0px; right:0px; margin:auto; top:60px; max-width:1400px; width:100%; height:90%; min-height:50px; z-index:2; border:0px; background: rgba(0,0,0,0); overflow:hidden; }
 
-/* 이전호 목록 */		#booklist		{ position : absolute;	right:20px;	top:0px;	max-width : 200px; width:30%;	height:30px; font-size:12px; background:#003c70; color:white; border:1px solid white; }
-#booklist_m		{ position : absolute;	right:45px;	top:0px; width:100px;	height:30px; font-size:12px; background:#003c70; color:white; border:1px solid white; }
+/* 이전호 목록 */		#booklist		{ position : absolute;	left:0px;	top:57px;	max-width : 200px; width:30%;	height:30px; font-size:12px; background:#f5f5f5; border:1px solid #EBEBEB; }
+#booklist_m		{ display:inline-block; width:100%; height:30px; font-size:12px; background:#f5f5f5; border:1px solid #EBEBEB; }
+
+#search_window		{ position:absolute; top:57px; width:30%; height:24px; right:10px; border:1px solid #DCDCDC; border-radius:4px; }
+#search_text			{ position:absolute; width:90%; height:100%; left:5px; background:rgba(0,0,0,0); border:0px; z-index:1; }
+#search_text_btn	{ width:auto; height:20px; right:5px; z-index:2; }
 
 /*--------------------------------------------------------------------------------------------------
 		도구 메뉴
 */
-/* 상단 창 */				#top_window		{ position:relative; display:block; z-index:5; width:100%; height : 50px; text-align:center; background:#003c70; }
-										#top_center		{ position:absolute; left:0px; right:0px; margin:auto; width:100%; max-width:1200px; height : 100%; }
-										.topobjects		{ margin:auto; top:0px; bottom:0px; position:absolute;}
-/* 로고 이미지 */		#top_logo			{ position:absolute; left:0px;right:0px;top:0px;bottom:0px; margin:auto; width:auto; height:60%; }
-#top_logo_m			{ position:absolute; left:0px;top:0px;bottom:0px; margin:auto; width:auto; height:60%; }
-/* 검색 버튼 */			#top_search_btn	{ left:20px; width:auto; height:60%; }
-#top_search_btn_m	{ right:5px; width:auto; height:60%; }
+/* 도구 창 */				#menu_window	{ position:relative; display:block; z-index:5; width:100%; height : 70px; text-align:center; background:#75c2d4; }
+/* 도구 중간 */			#menu_center	{ position:absolute; left:0px; right:0px; top:0px; bottom:0px; margin:auto; width:100%; max-width:1200px; height : 50%; text-align:right; }
+/* 도구 중간 */			#menu_center_m{ position:absolute; left:0px; right:0px; top:0px; bottom:0px; margin:auto; width:100%; max-width:1200px; height : 50%; text-align:center; }
 
-/* 도구 항목 */			
-#bottom_window			{ position:absolute; display:block; z-index:5; width:100%; height:60px; bottom:0px; background:#003c70; text-align:center; }
-#bottom_window_m		{ position:absolute; display:block; z-index:5; width:100%; height:24px; bottom:4px; text-align:left; }
-#menu_popup_window_m{ position:absolute; display:block; z-index:6; width:100%; height:36px; bottom:36px; background:rgba(0,60,112,0.75); text-align:center; display:none; }
-#bottom_center			{ position:absolute; width:100%; max-width:1200px; height:100%; left:0px; right:0px; margin:auto; }
-.bottomobjects			{ position:absolute; width:4%; max-width:40px; height:auto; top:0px; bottom:0px; margin:auto; }
-.bottomobjects_sns	{ position:absolute; width:4%; max-width:20px; height:auto; top:0px; bottom:0px; margin:auto; }
-.bottomobjects_m		{ width:30px; height:auto; margin:4px 2%; }
-.bottomobjects_sns_m{ height:100%; width:auto; float:right; margin:0px 4px; }
+/* 로고 이미지 */		#menu_logo		{ position:absolute; left:0px;top:0px;bottom:0px; margin:auto; width:15%; max-width:100px; height:auto; }
+/* 로고 이미지 */		#menu_logo_m	{ display:block; margin:-10px auto 10px auto; width:auto; height:15px; }
 
-#menu_home			{ left:0%; }
-#menu_twitter		{ left:3%; }
-#menu_facebook	{ left:6%; }
-#menu_kakaotalk	{ left:9%; }
+/* 도구 항목 */			.menuobjects	{ margin:auto; width:5%; max-width:40px; height:auto; top:0px; bottom:0px; position:absolute;}
+/* 도구 항목 */			.menuobjects_m{ margin:auto 1%; width:30px; height:auto;}
+#menu_memo_btn			{ right:35%; }
+#menu_draw_btn			{ right:30%; }
+#menu_pdf_down			{ right:25%; }
+#menu_tablelist_btn	{ right:20%; }
+#menu_slide_btn			{ right:15%; }
+#menu_bookmark_btn	{ right:10%; }
+#menu_print_btn			{ right:5%; }
+#menu_thumb_btn			{ right:0%; }
 
-#menu_home_m			{}
-#menu_twitter_m		{}
-#menu_facebook_m	{}
-#menu_kakaotalk_m	{}
-
-/* 퀵 메뉴 */
-.quickobjects		{ position:absolute; width:4%; max-width:16px; height:auto; top:0px; bottom:0px; margin:auto; }
-.quickobjects_m	{ position:relative; width:auto; height:100%; }
-.quicktexts			{ color:#7c7472; position:absolute; bottom:24px; font-size:10px; }
-.quicktexts_m		{ color:#7c7472; position:relative; font-size:10px; bottom:7px; }
-#quick_first_btn			{ left:22%; }
-#quick_prev_btn				{ left:25%; }
-#quick_pagenum_text		{ left:30%; }
-#quick_pagenum_area		{ left:34%; color:#7c7472; position:absolute; bottom:24px; font-size:10px; }
-#quick_pagenum_area_m	{ color:#7c7472; position:relative; font-size:10px; bottom:7px; }
-#quick_pagenum_slash	{ left:36%; }
-#quick_pagetotal_area	{ left:37%; }
-#quick_next_btn				{ left:40%; }
-#quick_last_btn				{ left:43%; }
-
-#menu_switch_btn_m		{ margin-left:4px; margin-right:8px; }
-
-#quick_first_btn_m		{ margin-left:4px; margin-right:8px; }
-#quick_prev_btn_m			{ margin-left:8px; margin-right:8px; }
-#quick_next_btn_m			{ margin-left:8px; margin-right:8px; }
-#quick_last_btn_m			{ margin-left:8px; margin-right:4px; }
-
-#menu_memo_btn			{ right : 35%; }
-#menu_draw_btn			{ right : 30%; }
-#menu_pdf_btn				{ right : 25%; }
-#menu_tablelist_btn	{ right : 20%; }
-#menu_bookmark_btn	{ right : 15%; }
-#menu_slide_btn			{ right : 10%; }
-#menu_print_btn			{ right : 5%;  }
-#menu_thumb_btn			{ right : 0%;  }
-
-#menu_tablelist_btn_m	{ }
-#menu_bookmark_btn_m	{ }
+#menu_draw_btn_m			{ }
+#menu_pdf_down_m			{ }
 #menu_slide_btn_m			{ }
 #menu_memo_btn_m			{ }
-#menu_draw_btn_m			{ }
-#menu_pdf_btn_m				{ }
+#menu_bookmark_btn_m	{ }
+#menu_tablelist_btn_m	{ }
 #menu_print_btn_m			{ }
 #menu_thumb_btn_m			{ }
 
+/*--------------------------------------------------------------------------------------------------
+		퀵 메뉴
+*/
+.quickobjects		{ width : auto;	height : 100%; margin:0px 1%; }
+.quickobjects_m	{ position:relative; height:100%; width:auto; }
+
+/* 퀵 메뉴 페이지 번호 글자 */	#quick_pagenum_area		{ color:gray; position:relative; bottom:10px; font-size:10px;  }
+#quick_pagenum_area_m		{ color:gray; position:relative; bottom:5px; font-size:10px;  }
+/* 퀵 메뉴 페이지 수 글자 */		#quick_pagetotal_area	{ color:gray; position:relative; bottom:10px; font-size:10px;  }
+#quick_pagetotal_area_m	{ color:gray; position:relative; bottom:5px; font-size:10px;  }
+#quick_first_btn	{ height:20px; margin-bottom:5px; }
+#quick_prev_btn		{ margin-right:3%; }
+#quick_next_btn		{ margin-left:3%; }
+#quick_last_btn		{ height:20px; margin-bottom:5px; }
+.quicktexts				{ color:gray; position:relative; bottom:10px; font-size:10px; }
+.quicktexts_m			{ color:gray; position:relative; bottom:5px; font-size:10px; }
+
+#bottom_window		{ position:absolute;	z-index:4; width:100%; max-width:1200px; height:30px; left:0px; right:0px; bottom:15px; margin:auto; text-align:right; }
+#bottom_window_m	{ position:absolute;	z-index:4; width:100%; max-width:1200px; height:20px; left:0px; right:0px; bottom:5px; margin:auto; text-align:left; }
+
+#quick_first_btn_m{ margin-left:10px; margin-right:10px; }
+#quick_prev_btn_m	{ margin-left:10px; margin-right:20px; }
+#quick_next_btn_m	{ margin-left:20px; margin-right:10px; }
+#quick_last_btn_m	{ margin-left:10px; margin-right:10px; }
+
+#quick_menu_switch { position:absolute; right:5px; bottom:5px; width:20px; height:auto; display:block; z-index:4; }
+
+#links_window_m		{ position:absolute;	z-index:5; width:140px; height:60px; right:0px; bottom:30px; text-align:left; background:rgba(255,255,255,0.75); text-align:center; border:1px solid #EBEBEB; display:none; }
+
+/*--------------------------------------------------------------------------------------------------
+		SNS
+*/
+.snsobjects		{ height:100%; width:auto; float:left; margin-right:1% }
+.snsobjects_m	{ height:20px; width:auto; margin:4px 6px;}
 
 /*--------------------------------------------------------------------------------------------------
 		섬네일

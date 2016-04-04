@@ -345,8 +345,13 @@ eBookCore.pageTurn.addBookmarkToPage = function(pageNum, addObj){
 
 /**	★ 페이지 표시 크기 반환
 **/
-eBookCore.pageTurn.getZoomRatio = function(){
-	return $(".pageview .slideframe.current .page .target").first().width() / eBookCore.pageOrigWidth;
+eBookCore.pageTurn.getZoomRatio = function(type){
+	//return $(".pageview .slideframe.current .page .target").first().width() / eBookCore.pageOrigWidth;	
+	var pageEl = $(".pageview .slideframe.current .page .target").first();
+	if(type){
+		return ("w"===type.toLowerCase()) ? pageEl.width() / eBookCore.pageOrigWidth : pageEl.height() / eBookCore.pageOrigHeight;
+	}
+	return (eBookCore.pageOrigWidth > eBookCore.pageOrigHeight) ? pageEl.width() / eBookCore.pageOrigWidth : pageEl.height() / eBookCore.pageOrigHeight;
 };
 
 

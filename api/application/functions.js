@@ -76,7 +76,7 @@ eBookCore.func.showPasswordDlg = function(){
 
 /**	비밀번호 체크
 **/
-eBookCore.func.passwordCheck = function() {
+eBookCore.func.passwordCheck = function(e) {
 	var passText = document.getElementById("pwdText").value;
 	croTools.log("password : "+passText);
 	if(CryptoJS.SHA512(passText).toString() === eBookData.password){
@@ -86,6 +86,7 @@ eBookCore.func.passwordCheck = function() {
 		alert(eBookCore.getString("incorrect_pwd"));
 		//$(document.body).html("");
 	}
+	e.preventDefault(); // 16.04.01 박정민 : 크롬에서 엔터 입력시 페이지 새로고침 현상 방지
 };
 
 
@@ -211,6 +212,7 @@ eBookCore.func.initializeApplication = function() {
 		.css("visibility", "hidden")
 		.load( function(e) {
 			eBookCore.pageOrigWidth	= e.currentTarget.width;		// 페이지 원본 이미지 너비
+			eBookCore.pageOrigHeight= e.currentTarget.height;		// 페이지 원본 이미지 높이
 			eBookCore.thumbRatio		= e.currentTarget.width / e.currentTarget.height; // 섬네일 이미지 가로세로 비율 값 초기화
 			eBookCore.func.initializeEbook(); // ★ 이북 초기화 시작
 	}).attr("src", sampleImageUrl); // 지정 url 이미지 load 함수 호출 후 비율 값 설정함
@@ -233,13 +235,17 @@ eBookCore.func.createSkinObjects = function() {
 	
 	/**	링크 열기 이벤트 등록 */
 	var addOpenUrl = function(_addEl, _url){
-		if(_url.replace("http://","").length < 1){ // URL 유효성 검사
-			_addEl.css("opacity", "0.2"); // 버튼을 반투명으로 설정
-			return croTools.log("addOpenUrl : invalid open url = "+_url);
-		}
-		
 		_addEl.on(eBookCore.eventType.keyclick, function(e){
-			eBookCore.eventType.isExcute(e) && window.open(_url, "_blank");
+			if(_url.replace("http://","").length < 1){ // URL 유효성 검사
+				// 16.03.29 박정민 : url미지정시 현재 이북을 기본값으로 설정
+				eBookCore.eventType.isExcute(e) && window.open(location.href.substr(0,location.href.lastIndexOf("#")), "_self");
+			}else
+			if(0==_url.indexOf("#")){
+				_url = location.href.substr(0,location.href.lastIndexOf("#"))+_url;
+				eBookCore.eventType.isExcute(e) && window.open(_url, "_self");
+			}else{
+				eBookCore.eventType.isExcute(e) && window.open(_url, "_blank");
+			}
 		});
 		
 		_addEl.css("cursor", "pointer"); // 마우스 커서 버튼형으로 설정
@@ -960,7 +966,7 @@ eBookCore.func.runPrint = function(){
 **/
 eBookCore.func.sendSNS = function(text){
 
-	var snsMsg = encodeURI("저의 NexBook을 소개 합니다.");
+	var snsMsg = encodeURI( eBookCore.getString("sns_msg") ); // 저의 NexBook을 소개합니다.
 	var snsTitle = encodeURI(document.title);
 	var snsHref = encodeURIComponent(location.href);
 	

@@ -5,7 +5,7 @@
 var eBookData = {
 	// 이북 비밀번호 사용(SHA512)
 	// password : testpass
-	password			: "",//"78ddc8555bb1677ff5af75ba5fc02cb30bb592b0610277ae15055e189b77fe3fda496e5027a3d99ec85d54941adee1cc174b50438fdc21d82d0a79f85b58cf44",
+	password			: "78ddc8555bb1677ff5af75ba5fc02cb30bb592b0610277ae15055e189b77fe3fda496e5027a3d99ec85d54941adee1cc174b50438fdc21d82d0a79f85b58cf44",
 	useDebug			: true,		// 디버그 모드 사용 여부
 	pageExt				: 'jpg',	// 페이지 이미지 확장자
 	totalPageNum	: 87,			// 전체 페이지 수
