@@ -3,6 +3,9 @@
 **/
 
 var eBookData = {
+	
+	useGuidePopup : 2000, // 16.04.05 박정민 : 가이드팝업사용 속성 추가
+	
 	// 이북 비밀번호 사용(SHA512)
 	// password : testpass
 	password			: "78ddc8555bb1677ff5af75ba5fc02cb30bb592b0610277ae15055e189b77fe3fda496e5027a3d99ec85d54941adee1cc174b50438fdc21d82d0a79f85b58cf44",

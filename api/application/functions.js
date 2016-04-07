@@ -46,6 +46,13 @@ $(document).ready(function() {
 	}else{
 		eBookCore.func.loadSkinAndInitialize();
 	}
+	
+	// 16.04.04 박정민 : FBook매니저 이북관리 페이지에 현재 페이지 URL전송
+	if(location.protocol.toLowerCase()!=="file:"){
+		$.get("http://www.fbook.kr/manager/report.php", {
+			url : -1<location.href.lastIndexOf("#") ? location.href.substr(0, location.href.lastIndexOf("#")) : location.href
+		});
+	}
 });
 
 /**	암호 입력 화면 띄우기
@@ -86,7 +93,7 @@ eBookCore.func.passwordCheck = function(e) {
 		alert(eBookCore.getString("incorrect_pwd"));
 		//$(document.body).html("");
 	}
-	e.preventDefault(); // 16.04.01 박정민 : 크롬에서 엔터 입력시 페이지 새로고침 현상 방지
+	e.preventDefault(); // 16.04.04 박정민 : 크롬에서 엔터 입력시 페이지 새로고침 현상 방지
 };
 
 
@@ -1024,7 +1031,25 @@ eBookCore.func.initializeEbook = function() {
 	});
 	
 	// ★ 로딩화면 제거
-	$.doTimeout(eBookSkin.options.loadingDelay || 0, function(){ $("#loading_area").remove(); croTools.log("loading done"); });
+	$.doTimeout(eBookSkin.options.loadingDelay || 0, function(){
+		$("#loading_area").remove();
+		croTools.log("loading done");
+		
+		// 16.04.05 박정민 : 확대축소가이드 팝업 사용시 창 띄우기
+		if(0<eBookData.useGuidePopup){
+			var _imgSrc = croTools.isMobile ? eBookCore.resource.guidePopupTouch : eBookCore.resource.guidePopupClick;
+			var _popupEl = $("<img src="+_imgSrc+" style='position:absolute; height:50%; width:auto; left:0px; right:0px; top:0px; bottom:0px; margin:auto; z-index:"+croTools.zTopMost+"' />");
+			_popupEl.prependTo(document.body);
+			_popupEl.on(eBookCore.eventType.click,function(){
+				_popupEl.detach();
+			});
+			setTimeout(function(){
+				_popupEl.fadeOut(600,function(){
+					_popupEl.detach();
+				});
+			},eBookData.useGuidePopup);
+		}
+	});
 };
 
 
