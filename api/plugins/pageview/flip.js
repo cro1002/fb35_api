@@ -53,6 +53,14 @@ eBookCore.pageTurn.init = function(){
 			
 			// ★ 페이지 컨텐츠 로딩
 			eBookCore.func.loadPageContents(element, pageNum);
+			
+			$("#bookclip").css({
+				left		: viewframe.offset().left+viewframe.width(),
+				top			: viewframe.offset().top,
+				display	: 'block',
+				position: 'absolute',
+				zIndex	: 100
+			});
 		};
 		
 		 // 본문 이미지 로딩이 끝나면 로딩페이지와 교체
@@ -70,6 +78,14 @@ eBookCore.pageTurn.init = function(){
 		autoCenter: true,	// Auto center this flipbook
 		when			: {
 
+			start : function(event, pageObject, corner){
+				croTools.log("page turn start");
+				$("#bookclip").css({
+					left	:viewframe.offset().left+viewframe.width(),
+					top		:viewframe.offset().top
+				});
+			},
+			
 			turned : function(e, pageNum, pageObj) {
 				croTools.log("page turned : "+pageNum);
 				eBookCore.func.setCurrentPageNum(pageNum); // 페이지를 직접 드래그하여 넘길 경우 현재 페이지 번호 설정하기 위해 추가
@@ -175,6 +191,12 @@ eBookCore.pageTurn.resize = function(){
 
 	// 컴포넌트 리셋
 	eBookCore.func.componentsReset();
+	
+	$("#bookclip").css({
+		left	:viewframe.offset().left+viewframe.width(),
+		top		:viewframe.offset().top,
+		height:viewframe.height()
+	});
 };
 
 

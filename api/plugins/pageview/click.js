@@ -33,11 +33,11 @@ eBookCore.pageTurn.init = function(){
 			$("<div class='viewframe' />")
 			.css({
 				width			: _viewport.width()+"px",
-				height		: "100%",
+				height		: "98%",
 				textAlign : "center",
 				display		: "inline-block",
 				position	: "absolute",
-				top				: "0px",
+				top				: "2%",
 				left			: "0px",
 			});
 		
