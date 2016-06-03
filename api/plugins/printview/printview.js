@@ -17,14 +17,17 @@ eBookCore.plugins.printView.open = function(_pageUrl, _pageExt, _currentPageNum,
 	
 	var printOptForm	= $("<form id='printOptions' ></form>");
 	printOptForm.append(
-			"<span>"+eBookCore.getString("printRange")+":</span><br/>"
-		+	"<input name='pageRange' type='radio' id='printPageCurr'  value='current' checked=''checked' />"	+ "<label for='printPageCurr'>"+eBookCore.getString("currentPage")+"("+_currentPageNum+")</label><br/>"
-		+	"<input name='pageRange' type='radio' id='printPageRange' value='range' />"												+ "<label for='printPageRange'>"+eBookCore.getString("selectRange")+"</label><br/>"
+			"<span id='print_title_range'>"+eBookCore.getString("printRange")+"</span><br/>"
+		+ "<ul><li>"
+		+	"<input name='pageRange' type='radio' id='printPageCurr'  value='current' checked=''checked' />" + "<label for='printPageCurr'>"+eBookCore.getString("currentPage")+"("+_currentPageNum+")</label>"
+		+ "</li><li>"
+		+	"<input name='pageRange' type='radio' id='printPageRange' value='range' />" + "<label for='printPageRange'>"+eBookCore.getString("selectRange")+"</label>"
 		+	"<div style='text-indent:1.5em; '>"
-		+	"	<select id='print_page_st' dir='rtl' disabled/>" + "<span> ─ </span>" + "<select id='print_page_ed' dir='rtl' disabled/>"
+		+	"	<select id='print_page_st' dir='rtl' disabled/>" + "<span> ~ </span>" + "<select id='print_page_ed' dir='rtl' disabled/>"
 		+	"</div>"
-		+	"<input name='pageRange'	type='radio' id='printPageAll' value='all' />"											+ "<label for='printPageAll'>"+eBookCore.getString("allPages")+"</label><br/><br/>"
-	//	+	"<input id='print_ratio_iso'	type='checkbox' />"														+ "<span>ISO 표준 규격 비율</span><br/><br/>"
+		+ "</li><li>"
+		+	"<input name='pageRange'	type='radio' id='printPageAll' value='all' />" + "<label for='printPageAll'>"+eBookCore.getString("allPages")+"</label>"
+		+ "</li></ul>"
 		+	"<input id='print_ok'			type='button' value='"+eBookCore.getString("print")+"' />"
 		+	"<input id='print_close'	type='button' value='"+eBookCore.getString("close")+"' />"
 	);
@@ -56,7 +59,7 @@ eBookCore.plugins.printView.open = function(_pageUrl, _pageExt, _currentPageNum,
 	// 선택페이지 범위 변경 이벤트 처리
 	$("#printOptions select").on("change", function(e){
 		
-		var _stNum		= parseInt( $("#print_page_st option:selected").val() );
+		var _stNum	= parseInt( $("#print_page_st option:selected").val() );
 		var _edNum	= parseInt( $("#print_page_ed option:selected").val() );
 		
 		if(_stNum > _edNum){ // 올바르지 않은 범위 선택시 값을 재조정
@@ -71,18 +74,13 @@ eBookCore.plugins.printView.open = function(_pageUrl, _pageExt, _currentPageNum,
 		eBookCore.plugins.printView.update(_pageUrl, _pageExt, _currentPageNum, _totalPageNum); // 미리보기 갱신
 	});
 	
-	// ISO 표준 규격 비율 체크 이벤트 처리
-	/* $("#print_ratio_iso").on("change", function(){
-		eBookCore.plugins.printView.update(_pageUrl, _pageExt, _currentPageNum, _totalPageNum); // 미리보기 갱신
-	}); */
-	
 	// 인쇄 버튼 이벤트 처리
 	$("#print_ok").on("click", function(){
 		$("#printPreviewContents").print({
-			globalStyles							: false,
+			globalStyles						: false,
 			mediaPrint							: false,
 			stylesheet							: null,
-			iframe									: false, // 디버그시 false 로 출력될 예상결과 확인
+			iframe									: false,
 			manuallyCopyFormValues	: false,
 		});
 	});
@@ -131,18 +129,5 @@ eBookCore.plugins.printView.update = function(_pageUrl, _pageExt, _currentPageNu
 		// 각 페이지 이미지를 추가
 		_previewWnd.append("<img src='" + _pageUrl + i + "." + _pageExt + "' />");
 	}
-	
-	// ISO 표준 규격 비율( 1 : 1.414 ) 사용시 스타일 수정 ★★★ 
-	/* if( $("#print_ratio_iso").is(":checked") ){
-		
-		var	previewImages	= _previewWnd.find("img");
-		//var	isoHeight				= parseInt( previewImages.first().width() * (1 / 1.414) );
-		previewImages.css({	width	: "100%",
-											height	: "100%",
-											left		: "0px",
-											right		: "0px",
-											margin	: "auto",
-											});
-	} */
 	
 };

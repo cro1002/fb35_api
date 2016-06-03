@@ -74,14 +74,16 @@ eBookCore.plugins.zoomview.run = function(_imgEl){
 		// 확대 이미지 표시
 		zoomEl.append(imgEl);
 		
-		// 원본 크기를 저장
-		eBookCore.plugins.zoomview.origSize = {
-			width  : imgEl.width(),
-			height : imgEl.height()
-		};
-		
-		// 표시 위치 초기화
-		eBookCore.plugins.zoomview.rePosition();
+		setTimeout(function(){
+			// 원본 크기를 저장
+			eBookCore.plugins.zoomview.origSize = {
+				width  : imgEl.width(),
+				height : imgEl.height()
+			};
+			
+			// 표시 위치 초기화
+			eBookCore.plugins.zoomview.rePosition();
+		},croTools.isMSIE()?100:0); // 16.04.07 박정민 : IE에서 곧바로 호출시 이미지 사이즈를 제대로 읽지 못하는 문제 수정.
 	})
 	.on(eBookCore.eventType.dblclick, eBookCore.plugins.zoomview.close)
 	.draggable({

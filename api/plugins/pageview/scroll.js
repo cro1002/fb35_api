@@ -198,6 +198,9 @@ eBookCore.pageTurn.resize = function(){
 	viewframe.find(".page").each(function(i, e){
 		eBookCore.pageTurn.resizeByPage(e);
 	});
+	
+	// 컴포넌트 리셋
+	eBookCore.func.componentsReset();
 };
 
 

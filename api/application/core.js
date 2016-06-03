@@ -8,6 +8,7 @@ var eBookCore = {};
 /** 맴버 변수 정의&초기화 */
 eBookCore.currentPageNum	= null;	// 현재 페이지 번호
 eBookCore.pageOrigWidth		= 0;		// 페이지 원본 이미지 너비
+eBookCore.pageOrigHeight	= 0;		// 페이지 원본 이미지 높이
 eBookCore.thumbRatio			= 1;		// 섬네일 가로세로비
 eBookCore.path						= {};		// 파일경로
 eBookCore.eventType				= {};		// 키,마우스,터치 이벤트 속성
@@ -52,34 +53,40 @@ eBookCore.components	= {
 	resizing : function(e)	{
 		e = $(e);
 		var _data = eBookCore.components.data[e.attr("id")];
-		var _ratio = eBookCore.pageTurn.getZoomRatio();
+		//var _ratio = eBookCore.pageTurn.getZoomRatio();
+		var _ratioW = eBookCore.pageTurn.getZoomRatio('w');
+		var _ratioH = eBookCore.pageTurn.getZoomRatio('h');
+		
+		if("false"===_data.visible){
+			e.css("visibility","hidden");
+		}
 		
 		if(0<e.closest(".mejs-container").length){ // e : video,audio
 			
 			e.css({
-				'width'		: (_ratio * parseInt(_data.width))	+ 'px',
-				'height'	: (_ratio * parseInt(_data.height))	+ 'px'
+				'width'		: (_ratioW * parseInt(_data.width))	+ 'px',
+				'height'	: (_ratioH * parseInt(_data.height))	+ 'px'
 			});
 			
 			e = e.closest(".mejs-container");
 			e.css({
-				'left'		: (_ratio * parseInt(_data.x))			+ 'px',
-				'top'			: (_ratio * parseInt(_data.y))			+ 'px',
-				'width'		: (_ratio * parseInt(_data.width))	+ 'px',
-				'height'	: (_ratio * parseInt(_data.height))	+ 'px'
+				'left'		: (_ratioW * parseInt(_data.x))			+ 'px',
+				'top'			: (_ratioH * parseInt(_data.y))			+ 'px',
+				'width'		: (_ratioW * parseInt(_data.width))	+ 'px',
+				'height'	: (_ratioH * parseInt(_data.height))	+ 'px'
 			});
 			return;
 		}
 		
 		e.css({
-			'left'		: (_ratio * parseInt(_data.x))			+ 'px',
-			'top'			: (_ratio * parseInt(_data.y))			+ 'px',
-			'width'		: (_ratio * parseInt(_data.width))	+ 'px',
-			'height'	: (_ratio * parseInt(_data.height))	+ 'px'
+			'left'		: (_ratioW * parseInt(_data.x))			+ 'px',
+			'top'			: (_ratioH * parseInt(_data.y))			+ 'px',
+			'width'		: (_ratioW * parseInt(_data.width))	+ 'px',
+			'height'	: (_ratioH * parseInt(_data.height))	+ 'px'
 		});
 		
 		if(!isNaN(_data.textHeight)){ // text component
-			e.css( 'font-size', (_ratio * parseInt(_data.textHeight))	+ 'px' );
+			e.css( 'font-size', (_ratioH * parseInt(_data.textHeight))	+ 'px' );
 		}
 	},
 	
@@ -112,7 +119,7 @@ eBookCore.components	= {
 			
 			var targetEl = getElById(_data.target);
 			if(!targetEl){ return croTools.log("action target not found : " + _data.target) }
-			targetEl.toggle();
+			targetEl.css('visibility', targetEl.css('visibility') == 'hidden' ? 'visible' : 'hidden' );//targetEl.toggle();
 		});
 		
 	},
@@ -220,10 +227,10 @@ eBookCore.components	= {
 		}
 	
 		// video,audio에서 불필요한 속성 제거
-		e.attr({'width':'','height':''}).css({ 'left' : '', 'top' : '' });
+		e.attr({'width':'','height':''}).css({ left:'', top:'', visibility:'' });
 		
-		// 자동실행 컴포넌트 처리
-		if(!croTools.isMobile()){ // 모바일환경에선 자동실행 사용 안함
+		// 자동실행 컴포넌트 처리( 모바일환경에선 자동실행 사용 안함, VIDEO 자동실행 안함, AUDIO는 autoplay 속성 체크 )
+		if(!croTools.isMobile() && "VIDEO"!==e[0].tagName && "true"===eBookCore.getDataById(e[0].id).autoplay){
 			var _pageNum	= eBookCore.getPageNumById(e.attr("id"));
 			var _pageNums	= eBookCore.pageTurn.getVisiblePageNumbers();
 			if(!_pageNums){ return croTools.log("failed : getVisiblePageNumbers"); }
@@ -243,33 +250,52 @@ eBookCore.components	= {
 *		언어팩 ( 사용 예 : eBookCore.getString("result") )
 */
 eBookCore.string = {
-	search				: { en:"search"				,	ko:"검색"					},
-	input_here		: { en:"input here"		,	ko:"여기에 입력"	},
-	result				: { en:"result"				,	ko:"결과"					},
-	search_more		: { en:"▼more▼"				,	ko:"▼더 보기▼"		},
-	contents			: { en:"contents"			,	ko:"목차"					},
-	bookmark			: { en:"bookmark"			,	ko:"책갈피"				},
-	unusable			: { en:"unusable"			,	ko:"사용 불가"		},
-	first_page		: { en:"first page"		,	ko:"첫 페이지"		},
-	last_page			: { en:"last page"		,	ko:"끝 페이지"		},
-	memo					: { en:"memo"					,	ko:"메모"					},
-	writehere			: { en:"write here"		,	ko:"여기에 입력"	},
-	save					: { en:"save"					,	ko:"저장"					},
-	cancel				: { en:"cancel"				,	ko:"취소"					},
-	close					: { en:"close"				,	ko:"닫기"					},
-	print					: { en:"print"				,	ko:"인쇄"					},
-	printPreview	: { en:"print preview",	ko:"인쇄 미리보기"	},
-	printRange		: { en:"print range"	,	ko:"인쇄 범위"			},
-	currentPage		: { en:"current page"	,	ko:"현재 페이지"		},
-	selectRange		: { en:"select range"	,	ko:"범위 지정"			},
-	allPages			: { en:"all pages"		,	ko:"전체 페이지"		},
-	zoomIn				: { en:"zoom in"			,	ko:"확대"						},
-	zoomOut				: { en:"zoom out"			,	ko:"축소"						},
-	undo					: { en:"undo"					,	ko:"실행취소"				},
-	redo					: { en:"redo"					,	ko:"실행복구"				},
-	clear					: { en:"clear"				,	ko:"초기화"					},
-	download			: { en:"download"			,	ko:"내려받기"				},
-	opacity				: { en:"opacity"			,	ko:"불투명도"				}
+	search				: { en:"search"				,	ko:"검색"						, ja:"檢索"					, zh:"檢索"			},
+	input_here		: { en:"input here"		,	ko:"여기에 입력"		, ja:"ここに入力"		, zh:"在这里输入"	},
+	result				: { en:"result"				,	ko:"결과"						, ja:"結果"					, zh:"結果"			},
+	search_more		: { en:"▼more▼"				,	ko:"▼더 보기▼"			, ja:"次へ"					, zh:"下一次"		},
+	contents			: { en:"contents"			,	ko:"목차"						, ja:"目次"					, zh:"目次"			},
+	bookmark			: { en:"bookmark"			,	ko:"책갈피"					, ja:"ブックマーク"	, zh:"书签"				},
+	unusable			: { en:"unusable"			,	ko:"사용 불가"			, ja:"使用不可"			, zh:"不可用"		},
+	first_page		: { en:"first page"		,	ko:"첫 페이지"			, ja:"最初のページ"	, zh:"第一页"		},
+	last_page			: { en:"last page"		,	ko:"끝 페이지"			, ja:"最後のページ"	, zh:"最后一页"	},
+	memo					: { en:"memo"					,	ko:"메모"						, ja:"メモ"					, zh:"记录"				},
+	writehere			: { en:"write here"		,	ko:"여기에 작성"		, ja:"ここに作成"		, zh:"写在这里"		},
+	save					: { en:"save"					,	ko:"저장"						, ja:"保存"					, zh:"保存"			},
+	cancel				: { en:"cancel"				,	ko:"취소"						, ja:"キャンセル"		, zh:"取消"			},
+	close					: { en:"close"				,	ko:"닫기"						, ja:"閉じる"				, zh:"关闭"				},
+	print					: { en:"print"				,	ko:"인쇄"						, ja:"プリント"			, zh:"印刷"			},
+	printPreview	: { en:"print preview",	ko:"인쇄 미리보기"	, ja:"プレビュー"		, zh:"预览"				},
+	printRange		: { en:"print range"	,	ko:"인쇄 범위"			, ja:"範囲"					, zh:"範圍"			},
+	currentPage		: { en:"current page"	,	ko:"현재 페이지"		, ja:"現在ページ"		, zh:"当前页"			},
+	selectRange		: { en:"select range"	,	ko:"범위 지정"			, ja:"範囲指定"			, zh:"指定范围"	},
+	allPages			: { en:"all pages"		,	ko:"전체 페이지"		, ja:"全体ページ"		, zh:"整个页面"		},
+	zoomIn				: { en:"zoom in"			,	ko:"확대"						, ja:"拡大"					, zh:"扩大"			},
+	zoomOut				: { en:"zoom out"			,	ko:"축소"						, ja:"縮小"					, zh:"缩小"			},
+	undo					: { en:"undo"					,	ko:"실행취소"				, ja:"アンドゥ"			, zh:"撤消"			},
+	redo					: { en:"redo"					,	ko:"실행복구"				, ja:"リドゥ"				, zh:"重做"			},
+	clear					: { en:"clear"				,	ko:"초기화"					, ja:"初期化"				, zh:"初始化"		},
+	download			: { en:"download"			,	ko:"내려받기"				, ja:"ダウンロード"	, zh:"下载"			},
+	opacity				: { en:"opacity"			,	ko:"투명도"					, ja:"透明度"				, zh:"透明度"		},
+	pen						: { en:"pen"					,	ko:"펜"							, ja:"ペン"					, zh:"笔"				},
+	marker				: { en:"marker"				,	ko:"마커"						, ja:"マーカー"				, zh:"记号笔"			},
+	submit				: { en:"submit"				,	ko:"확인"						, ja:"確認"					, zh:"确认"			},
+	
+	enter_pwd			: { en:"Please enter your password",
+										ko:"암호를 입력해 주세요",
+										ja:"暗号を入力してください",
+										zh:"请输入您的密码"
+										},
+	incorrect_pwd	: { en:"You entered an incorrect password",
+										ko:"틀린 암호를 입력하셨습니다",
+										ja:"間違ったパスワードを入力しました",
+										zh:"您输入的密码不正确"
+										},
+	sns_msg				: { en:"I introduce my NexBook.",
+										ko:"저의 NexBook을 소개합니다.",
+										ja:"私のNexBookを紹介します",
+										zh:"我介绍一下我的NexBook."
+										}
 };
 
 
@@ -282,7 +308,7 @@ eBookCore.getString = function(text){
 				||	eBookCore.string[ text ][ "en" ] /* default language */ ;
 	}catch(err){
 		croTools.log("getString( " + text + " ) error : " + err.message);
-		return '';
+		return ("unexpected string : " + text);
 	}
 };
 
@@ -302,4 +328,21 @@ eBookCore.getPageNumById = function(id){
 		}
 	}
 	return croTools.log("not found page number : unknown id="+id);
+};
+
+/**-------------------------------------------------------------------------------------------------
+*		컨텐츠 ID값으로 컨텐츠정보 반환
+*/
+eBookCore.getDataById = function(id){
+	var _cont = eBookData.pageContents;
+	for(var i=0; i<_cont.length; ++i){
+		for(var k=1; k<_cont[i].length; ++k){
+			var _data = _cont[i][k];
+			
+			if(_cont[i][k].id===id){
+				return _cont[i][k];
+			}
+		}
+	}
+	return croTools.log("not found data : unknown id="+id);
 };

@@ -3,16 +3,24 @@
 **/
 
 var eBookData = {
+	
+	useGuidePopup : 2000, // 16.04.05 박정민 : 가이드팝업사용 속성 추가
+	
+	// 이북 비밀번호 사용(SHA512)
+	// password : testpass
+	//password			: "78ddc8555bb1677ff5af75ba5fc02cb30bb592b0610277ae15055e189b77fe3fda496e5027a3d99ec85d54941adee1cc174b50438fdc21d82d0a79f85b58cf44",
 	useDebug			: true,		// 디버그 모드 사용 여부
 	pageExt				: 'jpg',	// 페이지 이미지 확장자
-	totalPageNum	: 87,			// 전체 페이지 수
+	totalPageNum	: 12,			// 전체 페이지 수
 	
 	useLogo			: true,		// 로고 이미지 사용여부
 	logoUrl			: "http://www.google.com/",	// 로고 클릭시 링크
 	homeUrl			: "http://www.ebook.co.kr",	// 홈버튼 링크
 	
+	useBooklist	: true, // 이전호 목록 사용여부
+	
 	pageView : { /** 페이지 넘김 속성 */
-		type			: "slide",	// pageView.type + .js
+		type			: "flip",	// pageView.type + .js
 		side			: "auto",	// 페이지 표시 양단면 설정 : auto, single, double
 		duration	: 600,		// 페이지 전환 속도
 		cover			: true,		// 커버페이지 사용여부 : added 15.10.07
@@ -40,17 +48,18 @@ var eBookData = {
 	
 	pageContents : [ /** 페이지 컨텐츠 */
 		[	1,
-			{ type:"action", id:"Interaction11435134959473", name:"액션1", height:"16", width:"17", y:"574", x:"900", dispatcher:"Text11435053604405", event:"onRelease", target:"Mp3Player11435050111825", action:"toggleVisible",  },
+			{ type:"action", id:"Interaction11435134959473", name:"액션1", height:"16", width:"30", y:"100", x:"100", dispatcher:"Text11435053604405", event:"onRelease", target:"Mp3Player11435050111825", action:"toggleVisible",  },
 			{ type:"text", id:"Text11435053604405", name:"글상자1", height:"231", width:"205", y:"524", x:"116", text:"테스트\n1234\n가나다\nabbcc\n100", font:"바탕", textHeight:"24", letterSpacing:"0", leading:"0", align:"left", bold:"false", italic:"false", underline:"false", textColor:"0x000000,100", backgroundColor:"0xFFFFFF,50", borderColor:"0x000000,100", borderWidth:"1", link:"",  },
-			{ type:"audio", id:"Mp3Player11435050111825", name:"MP3플레이어1", height:"60", width:"320", y:"393", x:"705", borderWidth:"1", musicURL:"0910253195.mp3", autoplay:"true", scale:"1",  },
-			{ type:"video", id:"Movie11435050026485", name:"동영상1", height:"450", width:"550", y:"538", x:"296", movieURL:"0910237787.mp4", normalImage:"0910232846.jpg", borderColor:"0x000000,100", borderWidth:"1",  },
-			{ type:"link", id:"Link11435050004029", name:"링크1", height:"211", width:"329", y:"130", x:"720", backgroundColor:"0xffffff,50", rolloverColor:"0xff00ff,50", borderColor:"0x000000,0", borderWidth:"1", link:"address|_blank|http://www.ebook.co.kr/",  },
+			{ type:"audio", id:"Mp3Player11435050111825", name:"MP3플레이어1", height:"60", width:"320", y:"393", x:"405", borderWidth:"1", musicURL:"0910253195.mp3", autoplay:"true", scale:"1",  },
+			{ type:"video", id:"Movie11435050026485", name:"동영상1", height:"450", width:"550", y:"500", x:"250", movieURL:"0910237787.mp4", normalImage:"0910232846.jpg", borderColor:"0x000000,100", borderWidth:"1",  },
+			{ type:"link", id:"Link11435050004029", name:"링크1", height:"211", width:"229", y:"130", x:"520", backgroundColor:"0xffffff,50", rolloverColor:"0xff00ff,50", borderColor:"0x000000,0", borderWidth:"1", link:"address|_blank|http://www.ebook.co.kr/",  },
 			{ type:"image", id:"Image11435049946157", name:"그림1", height:"264", width:"395", y:"119", x:"262", normalImage:"0910095317.jpg", rolloverImage:"0910127987.jpg", borderColor:"0x000000,100", borderWidth:"1", link:"popup|0|0|300|300|FBookLinkWindow|http://www.google.com/(_-__-_)300(_-__-_)300|false|false|false", originalSize:"false", }
 		],
 		[	3,
 			{ type:"image", originalSize:"false", link:"address|_blank|http://www.google.com/", borderWidth:"1", borderColor:"0x000000,100", rolloverImage:"http://", normalImage:"0910232846.jpg", name:"그림2", id:"Image21435545737769", height:"66", width:"96", y:"627", x:"498",  },
 			{ type:"image", originalSize:"false", link:"page|5", borderWidth:"1", borderColor:"0x000000,100", rolloverImage:"http://", normalImage:"0910232846.jpg", name:"그림1", id:"Image11435545735189", height:"196", width:"99", y:"277", x:"735",  },
-			{ type:"text", id:"Text11435545724621", name:"글상자1", height:"246", width:"304", y:"154", x:"253", text:"sdfg211213123", font:"바탕", textHeight:"32", letterSpacing:"0", leading:"0", align:"left", bold:"false", italic:"false", underline:"false", textColor:"0x000000,100", backgroundColor:"0xFFFFFF,100", borderColor:"0x000000,100", borderWidth:"1", link:"", }
+			{ type:"text", id:"Text11435545724621", name:"글상자1", height:"246", width:"304", y:"154", x:"253", text:"sdfg211213123", font:"바탕", textHeight:"32", letterSpacing:"0", leading:"0", align:"left", bold:"false", italic:"false", underline:"false", textColor:"0x000000,100", backgroundColor:"0xFFFFFF,100", borderColor:"0x000000,100", borderWidth:"1", link:"", },
+			{ type:"text", id:"Text11435545724622", name:"글상자2", height:"100", width:"200", y:"0", x:"590", text:"ㄱㄴㄷㄻㅄ", font:"굴림", textHeight:"32", letterSpacing:"0", leading:"0", align:"left", bold:"false", italic:"false", underline:"false", textColor:"0x000000,100", backgroundColor:"0xFFFFFF,100", borderColor:"0x000000,100", borderWidth:"1", link:"", }
 		],
 	],
 	

@@ -49,13 +49,20 @@ eBookCore.plugins.slideshow.run = function(_skinUrl, _currentPageNum, _totalPage
 
 	var slideShowEl = $("<div id='ebookslideshow' />");
 	slideShowEl.append("<div class='dragarea'/>");
-	slideShowEl.append("<span id='slideCurrentPageNum' class='pagenum' />");
-	slideShowEl.append("<span id='slideTotalPageNum' />");
-	slideShowEl.append("<div id='slideshowDelayBar' tabindex='0' />");
-	slideShowEl.append("<span id='slideshowSpeedNum' /><br/>");
-	slideShowEl.append("<input type='image' id='slideBtnPlay'				src='"+_skinUrl+"pause.png'	/>");
-	slideShowEl.append("<input type='image' id='slideBtnDirection'	src='"+_skinUrl+"right.png'	/>");
-	slideShowEl.append("<input type='image' id='slideBtnClose'			src='"+_skinUrl+"close.png'	/>");
+	
+	var slideShowUpEl		= $("<div class='slideshow_up'/>");
+	var slideShowDownEl	= $("<div class='slideshow_down'/>");
+	slideShowEl.append(slideShowUpEl);
+	slideShowEl.append(slideShowDownEl);
+	
+	slideShowUpEl.append("<input type='image' id='slideBtnPlay'				src='"+_skinUrl+"pause.png'	/>");
+	slideShowUpEl.append("<input type='image' id='slideBtnDirection'	src='"+_skinUrl+"right.png'	/>");
+	slideShowUpEl.append("<span id='slideBtnClose' tabindex='0'>\u2715</span>");
+
+	slideShowDownEl.append("<span id='slideshowSpeedNum' />");
+	slideShowDownEl.append("<div id='slideshowDelayBar' tabindex='0' />");
+	slideShowDownEl.append("<span id='slideCurrentPageNum' class='pagenum' />");
+	slideShowDownEl.append("<span id='slideTotalPageNum' />");
 	
 	slideShowEl.appendTo(document.body);
 	slideShowEl.focus();

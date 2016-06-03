@@ -41,13 +41,70 @@ $(document).ready(function() {
 					||	e.which === croTools.keyCode.MOUSELEFT);
 	};
 	
-	// 스킨 내장 스크립트 로딩
+	if(eBookData.password){ // 암호가 설정되어있으면 체크 후 로딩시작
+		eBookCore.func.showPasswordDlg();
+	}else{
+		eBookCore.func.loadSkinAndInitialize();
+	}
+	
+	// 16.04.04 박정민 : FBook매니저 이북관리 페이지에 현재 페이지 URL전송
+	if(location.protocol.toLowerCase()!=="file:"){
+		$.get("http://www.fbook.kr/manager/report.php", {
+			url : -1<location.href.lastIndexOf("#") ? location.href.substr(0, location.href.lastIndexOf("#")) : location.href
+		});
+	}
+});
+
+/**	암호 입력 화면 띄우기
+**/
+eBookCore.func.showPasswordDlg = function(){
+	
+	var blindEl = $("<div class='blind' style='width:100%;height:100%;position:absolute;background:black;z-index:"+croTools.zTopMost+";' />");
+	$(document.body).append(blindEl);
+	
+	var formEl = $("<form id='pwdBox' style='position:absolute;margin:auto;left:0px;right:0px;top:0px;bottom:0px;width:250px;height:100px;background-color:white;border-radius:10px;text-align:center;display:none;' />")
+		.submit(eBookCore.func.passwordCheck);
+	blindEl.append(formEl);
+	
+	var msgEl = $("<p style='margin:0.5em 0px;'>"+eBookCore.getString("enter_pwd")+"</p>");
+	formEl.append(msgEl);
+	
+	var inputPassEl = $("<input id='pwdText' type='password' required style='width:200px;display:block;left:0px;right:0px;margin:0.5em auto' />");
+	formEl.append(inputPassEl);
+
+	var buttonEl = $("<input type='button' value='"+eBookCore.getString("submit")+"' style='width:50px;' />")
+		.on('click', eBookCore.func.passwordCheck);
+	formEl.append(buttonEl);
+	
+	formEl.fadeIn("slow", function(){
+		inputPassEl.focus();
+	});
+};
+
+/**	비밀번호 체크
+**/
+eBookCore.func.passwordCheck = function(e) {
+	var passText = document.getElementById("pwdText").value;
+	croTools.log("password : "+passText);
+	if(CryptoJS.SHA512(passText).toString() === eBookData.password){
+		$(".blind").detach();
+		eBookCore.func.loadSkinAndInitialize();
+	}else{ // 실패시 알림창 띄우기
+		alert(eBookCore.getString("incorrect_pwd"));
+		//$(document.body).html("");
+	}
+	e.preventDefault(); // 16.04.04 박정민 : 크롬에서 엔터 입력시 페이지 새로고침 현상 방지
+};
+
+
+/**	스킨 내장 스크립트 로딩 후 초기화 시작
+**/
+eBookCore.func.loadSkinAndInitialize = function() {
 	yepnope({
 		load			: [ eBookCore.path.skin + "skin.js" ],	// 스킨 스크립트 로드( 로딩화면 처리 포함 )
 		complete	:  eBookCore.func.initializeApplication	// ★ 스크립트 로딩 완료 후 초기화 진행
 	});
-});
-
+};
 
 /**	URL 페이지 번호 변경 이벤트 처리
 **/
@@ -69,6 +126,10 @@ $(window).on('hashchange', function(e){
 **/
 $(window).resize(function(){
 	
+	// 페이지뷰 수정된 높이속성이 있을 경우 제거
+	var pageviewEl = $('.pageview');
+	pageviewEl.css('height','');
+	
 	// 창크기가 변경된게 맞는지 확인( for IE8 )
 	var _newSize = croTools.getClientSize();
 	
@@ -89,6 +150,11 @@ $(window).resize(function(){
 	$(".draggable").each(function(i,e){
 		eBookCore.func.moveWindowIntoView($(e).parent());
 	});
+	
+	// 페이지뷰 크기가 화면을 넘어가면 안쪽으로 꽉 차게 수정
+	if(window.innerHeight < pageviewEl.offset().top+pageviewEl.height()){
+		pageviewEl.height( window.innerHeight - pageviewEl.offset().top );
+	}
 
 	$.doTimeout('wndResize', 100, eBookCore.pageTurn.resize); // 페이지 리사이즈 호출
 });
@@ -144,6 +210,14 @@ $(window).on("keyup", function(e){
 	eBookCore.keyDownState[e.which] = false;
 });
 
+/**	마우스 휠 동작 이벤트 처리
+**/
+$(window).on("wheel", function(e){
+	if(	1>$(".blind").length ){ // 휠스크롤로 페이지 이동
+		return 0<window.event.wheelDelta ? eBookCore.func.gotoPrev() : eBookCore.func.gotoNext();
+	}
+});
+
 /**	이북 어플리케이션 초기화
 **/
 eBookCore.func.initializeApplication = function() {
@@ -153,6 +227,7 @@ eBookCore.func.initializeApplication = function() {
 		.css("visibility", "hidden")
 		.load( function(e) {
 			eBookCore.pageOrigWidth	= e.currentTarget.width;		// 페이지 원본 이미지 너비
+			eBookCore.pageOrigHeight= e.currentTarget.height;		// 페이지 원본 이미지 높이
 			eBookCore.thumbRatio		= e.currentTarget.width / e.currentTarget.height; // 섬네일 이미지 가로세로 비율 값 초기화
 			eBookCore.func.initializeEbook(); // ★ 이북 초기화 시작
 	}).attr("src", sampleImageUrl); // 지정 url 이미지 load 함수 호출 후 비율 값 설정함
@@ -164,19 +239,31 @@ eBookCore.func.initializeApplication = function() {
 eBookCore.func.createSkinObjects = function() {
 
 	/**	탭 인덱스 등록 */
-	var addTabIndex = function(e){
-		if(isNaN(e.attr("tabindex"))){ // 따로 지정하지 않은 경우 자동 추가
+	var addTabIndex = function(e, tabIndex){
+		if(isNaN(tabIndex)){ // 따로 지정하지 않은 경우 자동 추가
 				e.attr("tabindex", 0);
+		}else
+		if(0>tabIndex){ // 탭인덱스 -1 지정시 선택되지 않게 함
+			e.on("focus",function(el){ $(el.target).blur(); });
 		}
 	};
 	
 	/**	링크 열기 이벤트 등록 */
 	var addOpenUrl = function(_addEl, _url){
-		if(_url.replace("http://","").length < 1){ return croTools.log("addOpenUrl : invalid open url = "+_url); } // URL 유효성 검사
-		
 		_addEl.on(eBookCore.eventType.keyclick, function(e){
-			eBookCore.eventType.isExcute(e) && window.open(_url, "_blank");
+			if(_url.replace("http://","").length < 1){ // URL 유효성 검사
+				// 16.03.29 박정민 : url미지정시 현재 이북을 기본값으로 설정
+				eBookCore.eventType.isExcute(e) && window.open(location.href.substr(0,location.href.lastIndexOf("#")), "_self");
+			}else
+			if(0==_url.indexOf("#")){
+				_url = location.href.substr(0,location.href.lastIndexOf("#"))+_url;
+				eBookCore.eventType.isExcute(e) && window.open(_url, "_self");
+			}else{
+				eBookCore.eventType.isExcute(e) && window.open(_url, "_blank");
+			}
 		});
+		
+		_addEl.css("cursor", "pointer"); // 마우스 커서 버튼형으로 설정
 	};
 	
 	/**	이전 호 목록창 생성 */
@@ -201,7 +288,7 @@ eBookCore.func.createSkinObjects = function() {
 				bookListEl.on("change", function(){ // 모바일 환경 : change 이벤트로 처리
 					var _sel = bookListEl.find("option:selected").first();
 					if( 0<_sel.length && 0<_sel.attr("value").length ){
-							window.open(_sel.attr("value"), _sel.attr("target"));
+						window.open(_sel.attr("value"), _sel.attr("target"));
 					}
 				});
 			}else{
@@ -263,6 +350,22 @@ eBookCore.func.createSkinObjects = function() {
 		bookmarkListEl.append(listUl);
 	
 		eBookCore.func.bookmarkListUpdate(listUl); // 북마크 자료 최초 1회 갱신
+	};
+	
+	/**	섬네일 목록 생성 */
+	var thumbListCreate = function(thumbListEl) {
+		var blindEl = $("<div class='bg' />");
+		blindEl.on("click", function(){
+			eBookCore.func.wndHide(thumbListEl);
+		});
+		
+		var contentsEl = $("<div class='contents' ><ul/></div>");
+		contentsEl.on("click", function(){
+			eBookCore.func.wndHide(thumbListEl);
+		});
+		
+		thumbListEl.append(blindEl);
+		thumbListEl.append(contentsEl);
 	};
 	
 	/**	검색 기능 생성 */
@@ -391,8 +494,12 @@ eBookCore.func.createSkinObjects = function() {
 		
 		case "window"	:	addElem = $("<div/>");				// 창화면(div) 생성
 										break;
-		case "image"		:	addElem = $("<img/>");			// 이미지(img) 생성
-										addTabIndex(addElem);
+		case "image"	:	addElem = $("<img/>");			// 이미지(img) 생성
+										addTabIndex(addElem, obj.tabindex);
+										break;
+		case "text"		: addElem = $("<span/>");			// 텍스트(span) 생성
+										break;
+		case "input"	: addElem = $("<input type='text'/>");		// 입력란(input) 생성
 										break;
 		
 		/** 고유 속성 항목 */
@@ -410,9 +517,10 @@ eBookCore.func.createSkinObjects = function() {
 										addTabIndex(addElem);
 										addOpenUrl(addElem, eBookData.homeUrl);
 										break;
-		case "thumblist"	:	addElem = $("<div class='thumblist' ><ul /></div>");	// 섬네일 리스트 생성
+		case "thumblist"	:	addElem = $("<div class='thumblist' />");	// 섬네일 리스트 생성
+												thumbListCreate(addElem);
 												break;
-		case "booklist"		:	addElem = $("<select class='booklist' />");						// 이전호 보기 리스트 읽기
+		case "booklist"		:	addElem = eBookData.useBooklist?$("<select class='booklist' />"):null;						// 이전호 보기 리스트 읽기
 												bookListCreate(addElem);
 												break;
 		case "tablelist"	:	addElem = $("<div class='tablelist' />");							// 목차 리스트 읽기
@@ -514,6 +622,10 @@ eBookCore.func.createSkinObjects = function() {
 				_value && addElem.resizable();
 				break;
 			
+			case "text" : // text 타입일때 문자열 설정
+				addElem.text(_value);
+				break;
+				
 			/* 기본 속성 : id, class, src, title, tabindex ... */
 			case "src" : // 이미지 상대 경로 수정
 				_value = eBookCore.path.skin + eBookSkin.path.image + _value; // ./assets/theme/ + images/ + _value.jpg
@@ -562,6 +674,7 @@ eBookCore.func.gotoPage = function(_pageNum){
 	
 	var _oldHash = location.hash;
 	
+	// hash change
 	location.hash = "#page=" + ( _pageNum > -1 ? croTools.rangeValue( _pageNum, 1, eBookData.totalPageNum ) : eBookData.totalPageNum );
 	
 	if(location.hash === _oldHash){			// 동일한 hash 값을 지정한 경우
@@ -682,7 +795,7 @@ eBookCore.func.wndShow = function(_wnd){
 		$(e).fadeIn("fast");
 	});
 	
-	if(0<wndEl.find(".thumblist").length){ // 섬네일 리스트가 있으면 갱신
+	if("thumblist"===wndEl.attr("class")){//if(0<wndEl.find(".thumblist").length){ // 섬네일 리스트가 있으면 갱신
 		eBookCore.func.thumbnailImageUpdate(eBookCore.currentPageNum);
 	}
 };
@@ -691,9 +804,9 @@ eBookCore.func.wndHide = function(_wnd){
 		if( $(e).is(":animated") ){ return /* croTools.log("eBookCore.func.wndHide : now animating") */; }
 		$(e).fadeOut("fast",
 			function(){ // completed event
-				if($(e).is(".thumblist") || 0<$(e).find(".thumblist").length){ // 섬네일 리스트가 있으면 갱신
+				/*if($(e).is(".thumblist") || 0<$(e).find(".thumblist").length){ // 섬네일 리스트가 있으면 갱신
 					eBookCore.func.thumbnailImageUpdate(eBookCore.currentPageNum);
-				}
+				}*/
 			}
 		);
 	});
@@ -757,7 +870,7 @@ eBookCore.func.bookmarkListUpdate = function(listUl) {
 		addEl.html(
 				"<img src='"+eBookCore.path.thumb + i + "." + eBookData.pageExt+"' />"
 			+	"<span class='page'>"+ i +"</span>"
-			+	"<span class='text'>" + (eBookData.textList[i-1] ? eBookData.textList[i-1].substr(0,50) : "") + "...</span>" )
+			+	"<p class='text'>" + (eBookData.textList[i-1] ? eBookData.textList[i-1].substr(0,50) : "") + "...</p>" )
 			.on(eBookCore.eventType.keyclick, function(e){
 				eBookCore.eventType.isExcute(e) && eBookCore.func.gotoPage( parseInt( $(e.target).closest('li').find('.page').text() ) );
 		});
@@ -811,10 +924,12 @@ eBookCore.func.bookmarkUpdate = function(){
 	if(!_pageNums){ return croTools.log("failed : getVisiblePageNumbers"); }
 	for(var i=0; i<_pageNums.length; ++i){
 		
+		var isActivated = eBookCore.func.isMarked( _pageNums[i] );
+		
 		var bookmarkObj
 			= $("<img/>")
-					.attr({	'class'			: 'bookmark',
-									'src'				: eBookCore.path.skin + eBookSkin.path.image + "bookmark.png",
+					.attr({	'class'			: isActivated ? 'bookmark activate' : 'bookmark',
+									'src'				: eBookCore.path.skin + eBookSkin.path.image + (isActivated ? "bookmark_yes.svg" : "bookmark_no.svg"),
 									'tabindex'	: 0,
 									'title'			: eBookCore.getString('bookmark')
 					});
@@ -824,10 +939,6 @@ eBookCore.func.bookmarkUpdate = function(){
 			eBookCore.func.bookmarkToggle( parseInt( $(e.target).closest("[page]").attr("page") ) );
 			eBookCore.func.bookmarkUpdate(); // 책갈피 갱신
 		});
-		
-		if( eBookCore.func.isMarked( _pageNums[i] ) ){ // 활성화된 책갈피는 투명도 해제
-			bookmarkObj.addClass("activate");
-		}
 		
 		eBookCore.pageTurn.addBookmarkToPage( _pageNums[i], bookmarkObj );
 	}
@@ -870,7 +981,7 @@ eBookCore.func.runPrint = function(){
 **/
 eBookCore.func.sendSNS = function(text){
 
-	var snsMsg = encodeURI("저의 NexBook을 소개 합니다.");
+	var snsMsg = encodeURI( eBookCore.getString("sns_msg") ); // 저의 NexBook을 소개합니다.
 	var snsTitle = encodeURI(document.title);
 	var snsHref = encodeURIComponent(location.href);
 	
@@ -928,7 +1039,25 @@ eBookCore.func.initializeEbook = function() {
 	});
 	
 	// ★ 로딩화면 제거
-	$.doTimeout(eBookSkin.options.loadingDelay || 0, function(){ $("#loading_area").remove(); croTools.log("loading done"); });
+	$.doTimeout(eBookSkin.options.loadingDelay || 0, function(){
+		$("#loading_area").remove();
+		croTools.log("loading done");
+		
+		// 16.04.05 박정민 : 확대축소가이드 팝업 사용시 창 띄우기
+		if(0<eBookData.useGuidePopup){
+			var _imgSrc = croTools.isMobile() ? eBookCore.resource.guidePopupTouch : eBookCore.resource.guidePopupClick;
+			var _popupEl = $("<img src="+_imgSrc+" style='position:absolute; height:50%; width:auto; left:0px; right:0px; top:0px; bottom:0px; margin:auto; z-index:"+(croTools.zTopMost-100)+"' />");
+			_popupEl.prependTo(document.body);
+			_popupEl.on(eBookCore.eventType.click,function(){
+				_popupEl.detach();
+			});
+			setTimeout(function(){
+				_popupEl.fadeOut(600,function(){
+					_popupEl.detach();
+				});
+			},eBookData.useGuidePopup);
+		}
+	});
 };
 
 
@@ -983,16 +1112,18 @@ eBookCore.func.thumbnailImageUpdate = function(pageNum) { // pageNum : 1 ~ total
 	
 	croTools.log("thumbnailImageUpdate");
 	
-	var thumbList	= $(".thumblist");
-	if(!thumbList.is(":visible")){ return; } // 화면 감춤 상태면 갱신 안함
+	var thumbList	= $(".thumblist .contents");
+	if(1>thumbList.length || !thumbList.is(":visible")){ return; } // 화면 감춤 상태면 갱신 안함
 	
-	var thumbUL	= $(".thumblist ul");
+	var thumbUL	= thumbList.find("ul");//$(".thumblist ul");
 	if(1>thumbUL.length){ return; }
 	
 	if( thumbUL.is(":empty") ){ // 섬네일 이미지가 없으면 초기화
 	
+		croTools.log("thumbnailImage Create!");
+	
 		for(var i=1; i<=eBookData.totalPageNum; ++i){
-			thumbUL.append ("<li page='"+i+"'><span>"+i+"</span><img src='"+eBookCore.path.thumb+i+".jpg' class='thumbloader' tabindex='0'></img></li>");
+			thumbUL.append ("<li page='"+i+"'><div><span>"+i+"</span><img src='"+eBookCore.path.thumb+i+".jpg' class='thumbloader' tabindex='0'></img></div></li>");
 		}
 		
 		thumbUL.find("img").each(function(i,e){
@@ -1012,10 +1143,10 @@ eBookCore.func.thumbnailImageUpdate = function(pageNum) { // pageNum : 1 ~ total
 				})
 				.on("dragstart", function(f){f.preventDefault();})
 				.on(eBookCore.eventType.keyclick, function(f){
-					return eBookCore.eventType.isExcute(f) && eBookCore.func.gotoPage(_num);
+					return eBookCore.eventType.isExcute(f) && eBookCore.func.gotoPage(_num) && eBookCore.func.wndHide(".thumblist");
 				});
 		});
-	
+		
 	}else{
 		thumbUL.find(".on").removeClass("on");
 
@@ -1069,3 +1200,63 @@ eBookCore.func.loadPageContents = function(pageEl, pageNum) { // pageNum : 1 ~ t
 	// 모든 이미지가 로딩됐으면 컴포넌트 리셋 호출
 	return 1>$(".loader").length && eBookCore.func.componentsReset();
 };
+
+/**	PDF 보기/받기
+**/
+eBookCore.func.pdfDown = function(path) {
+	window.open(path?path:"./assets/contents/download.pdf","_blank");
+};
+
+/**	검색어 태그객체로 검색창 띄우기
+**/
+eBookCore.func.searchByInput = function(id) {
+	var targetEl = $(id); // <input> element
+	
+	// 검색창 띄우기
+	eBookCore.func.wndShow(".searchlist");
+	
+	// 검색어 수정+keyup 이벤트 전달
+	var inputEl = $(".searchlist input.search_text");
+	inputEl.val( targetEl.val() );
+	inputEl.trigger("keyup");
+};
+
+/**	기본 로딩 화면
+**/
+eBookCore.func.showLoading = function() {
+	
+	var wndSize = croTools.getClientSize();
+	$("<canvas id='loading_area' width='"+wndSize.width+"' height='"+wndSize.height+"'></canvas>")
+		.css({
+			position	:'absolute',
+			background:'rgba(0,8,32,0.9)',
+			zIndex		:croTools.zTopMost,
+			width			:'100%',
+			height		:'100%',
+		})
+		.appendTo(document.body);
+	
+	eBookSkin.loadingLoop = setInterval(function(){
+
+		var cv	= $("#loading_area")[0];
+		if(!cv){
+			return clearInterval(this);
+		}
+		var ctx	= cv.getContext('2d');
+		ctx.clearRect(0,0,cv.width,cv.height);
+		
+		// 로딩 서클 그리기
+		croTools.canvasCircle(cv);
+		
+		// text
+		ctx.font				= '12pt Calibri';
+		ctx.textAlign		= 'right';
+		ctx.fillStyle		= 'white';
+		ctx.globalAlpha	= 0.75;
+		ctx.fillText('powered by E&IWORLD', cv.width-10, cv.height-10);
+		
+	},25);
+	
+	croTools.log("loading start");
+};
+

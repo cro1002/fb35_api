@@ -33,11 +33,11 @@ eBookCore.pageTurn.init = function(){
 			$("<div class='viewframe' />")
 			.css({
 				width			: _viewport.width()+"px",
-				height		: "100%",
+				height		: "98%",
 				textAlign : "center",
 				display		: "inline-block",
 				position	: "absolute",
-				top				: "0px",
+				top				: "2%",
 				left			: "0px",
 			});
 		
@@ -171,8 +171,13 @@ eBookCore.pageTurn.addBookmarkToPage = function(pageNum, addObj){
 
 /**	★ 페이지 표시 크기 반환
 **/
-eBookCore.pageTurn.getZoomRatio = function(){
-	return $(".pageview .viewframe .page .target").first().width() / eBookCore.pageOrigWidth;
+eBookCore.pageTurn.getZoomRatio = function(type){
+	//return $(".pageview .viewframe .page .target").first().width() / eBookCore.pageOrigWidth;
+	var pageEl = $(".pageview .viewframe .page .target").first();
+	if(type){
+		return ("w"===type.toLowerCase()) ? pageEl.width() / eBookCore.pageOrigWidth : pageEl.height() / eBookCore.pageOrigHeight;
+	}
+	return (eBookCore.pageOrigWidth > eBookCore.pageOrigHeight) ? pageEl.width() / eBookCore.pageOrigWidth : pageEl.height() / eBookCore.pageOrigHeight;
 };
 
 

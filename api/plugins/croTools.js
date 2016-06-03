@@ -45,6 +45,8 @@ croTools = {
 	
 	canvasCircle	: function(canvas, option){},		// 캔버스에 회전하는 서클 이미지 그리기(로딩 효과에 사용)
 	
+	SelectByCss : function(selector, style, value){}, // CSS 속성으로 객체 선택하여 반환
+	
 	keyCode : {													// 키 코드값 정의
 		MOUSELEFT : 1, MOUSEMIDDLE : 2, MOUSERIGHT : 3,
 		BACKSPACE : 8, TAB : 9, ENTER : 13, SHIFT : 16, CTRL : 17, ALT : 18, PAUSEBREAK : 19, CAPSLOCK : 20, ESC : 27,	SPACE: 32, PAGEUP : 33, PAGEDOWN : 34, END : 35, HOME : 36, LEFT : 37, UP : 38, RIGHT : 39, DOWN : 40, INSERT : 45, DELETE : 46,
@@ -446,7 +448,7 @@ croTools.canvasCircle = function(canvas, option){
 			x			: 0.5,
 			y			: 0.5,
 			radius: [_size/8, _size/16],// or number
-			thick	: [_size/6, _size/3],	// or number
+			thick	: [_size/16, _size/8],	// or number
 			ccw		: false,
 			color	: {
 				R : [255, 255,  32,   0,  32, 255],
@@ -487,4 +489,13 @@ croTools.canvasCircle = function(canvas, option){
 											+')';
 	ctx.globalAlpha = option.alpha;
 	ctx.stroke();
+};
+
+/**	CSS 속성으로 객체 선택하여 반환
+		selector: 기본 선택자
+		style		: 속성명
+		value		: 속성값
+**/
+croTools.SelectByCss = function(selector, style, value){
+	return $(selector).filter(function(){ return $(this).css(style)==value; });
 };

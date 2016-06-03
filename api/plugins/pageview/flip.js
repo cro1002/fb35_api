@@ -53,9 +53,35 @@ eBookCore.pageTurn.init = function(){
 			
 			// ★ 페이지 컨텐츠 로딩
 			eBookCore.func.loadPageContents(element, pageNum);
+			
+			if(0<$("#bookclip_pc").length){
+				if(croTools.isMobile()){
+					$("#bookclip_pc").detach();
+				}else{
+					$("#bookclip_pc").attr("id","bookclip");
+				}
+			}
+			
+			if(0<$("#bookclip_mobile").length){
+				if(!croTools.isMobile()){
+					$("#bookclip_mobile").detach();
+				}else{
+					$("#bookclip_mobile").attr("id","bookclip");
+				}
+			}
+			
+			var _pageEl=$(".page-wrapper[style*='z-index: "+eBookData.totalPageNum+";']");
+			_pageEl = parseInt(_pageEl.first().attr("page")) < parseInt(_pageEl.last().attr("page")) ? _pageEl.last() : _pageEl.first();
+			if(0<_pageEl.length) $("#bookclip").css({
+				left		: _pageEl.offset().left+_pageEl.width(),
+				top			: viewframe.offset().top,
+				display	: 'block',
+				position: 'absolute',
+				zIndex	: 100
+			});
 		};
 		
-		 // 본문 이미지 로딩이 끝나면 로딩페이지와 교체
+		// 본문 이미지 로딩이 끝나면 로딩페이지와 교체
 		croTools.canHTML5() ? _addImg.load(loadingComplete) : loadingComplete(); // IE8 이하 버전에서 load 이벤트가 제대로 동작하지 않으므로 페이지 이미지로 바로 교체
 	};
 	
@@ -63,19 +89,31 @@ eBookCore.pageTurn.init = function(){
 	viewframe.turn({
 		page			: eBookCore.currentPageNum,
 		pages			: eBookData.totalPageNum,
-		display			: eBookCore.func.nowPageViewSingle() ? "single" : "double",
-		duration		: eBookData.pageView.duration,
-		elevation		: 0,		// Elevation
-		gradients		: true,	// Enable gradients
-		autoCenter	: true,	// Auto center this flipbook
+		display		: eBookCore.func.nowPageViewSingle() ? "single" : "double",
+		duration	: eBookData.pageView.duration,
+		elevation	: 0,		// Elevation
+		gradients	: true,	// Enable gradients
+		autoCenter: true,	// Auto center this flipbook
 		when			: {
+
+			start : function(event, pageObject, corner){
+				croTools.log("page turn start");
+				
+				var _pageEl=$(".page-wrapper[style*='z-index: "+eBookData.totalPageNum+";']");
+				_pageEl = parseInt(_pageEl.first().attr("page")) < parseInt(_pageEl.last().attr("page")) ? _pageEl.last() : _pageEl.first();
+				if(0<_pageEl.length) $("#bookclip").css({
+					left		: _pageEl.offset().left+_pageEl.width(),
+					top		:viewframe.offset().top
+				});
+			},
 			
 			turned : function(e, pageNum, pageObj) {
-				croTools.log("page turned");
+				croTools.log("page turned : "+pageNum);
+				eBookCore.func.setCurrentPageNum(pageNum); // 페이지를 직접 드래그하여 넘길 경우 현재 페이지 번호 설정하기 위해 추가
 				eBookCore.func.componentsReset();// 페이지 넘김 후 새 페이지 번호로 화면 갱신
 				
 				/** 확대축소 이벤트 재등록 : turnjs 특성상 사라진 페이지를 다시 추가하면 이전 이벤트가 제거되어있으므로 재등록함 */
-				$("#pageview .target:visible")
+				$(".pageview .target:visible")
 					.off(eBookCore.eventType.dblclick)
 					.on (eBookCore.eventType.dblclick, function(e){
 						eBookCore.plugins.zoomview.run($(e.target));
@@ -113,7 +151,9 @@ eBookCore.pageTurn.update = function(pageNum){
 eBookCore.pageTurn.getVisiblePageNumbers = function(){
 	var retNumbers = [];
 	$(".pageview .viewframe [page]:visible").each(function(i,e){
-		retNumbers.push( parseInt( $(e).attr("page") ) );
+		if( eBookData.totalPageNum === parseInt( $(e).css("z-index") ) ){
+			retNumbers.push( parseInt( $(e).attr("page") ) );
+		}
 	});
 	return retNumbers;
 };
@@ -128,9 +168,13 @@ eBookCore.pageTurn.addBookmarkToPage = function(pageNum, addObj){
 
 /**	★ 페이지 표시 크기 반환
 **/
-eBookCore.pageTurn.getZoomRatio = function(){
+eBookCore.pageTurn.getZoomRatio = function(type){
 	var _page = $(".pageview .viewframe [page]:visible").first();
-	return _page.width() / eBookCore.pageOrigWidth;
+	//return _page.width() / eBookCore.pageOrigWidth;
+	if(type){
+		return ("w"===type.toLowerCase()) ? _page.width() / eBookCore.pageOrigWidth : _page.height() / eBookCore.pageOrigHeight;
+	}
+	return (eBookCore.pageOrigWidth > eBookCore.pageOrigHeight) ? _page.width() / eBookCore.pageOrigWidth : _page.height() / eBookCore.pageOrigHeight;
 };
 
 
@@ -154,17 +198,30 @@ eBookCore.pageTurn.resize = function(){
 	var _frameTop		= ( _viewport.height() - _frameHeight ) / 2;
 
 	var viewframe = $(".pageview .viewframe").css({
-		left		: _frameLeft			+ 'px',
-		top		: _frameTop			+ 'px',
-		width	: _frameWidth		+ 'px',
-		height	: _frameHeight	+ 'px',
+		left	: (_frameLeft		+20)	+ 'px',
+		top		: (_frameTop		+20)	+ 'px',
 	});
 
 	if(0<viewframe.children().length){
-		viewframe.turn("size",		_frameWidth, _frameHeight				);
+		viewframe.turn("size",		_frameWidth-40, _frameHeight-40				);
 		viewframe.turn("display",	_displaySingle ? "single" : "double"	);
+		
+		// 단면보기시 뒷면이 흰색이 표시되게 수정
+		viewframe.find(".p-temporal").css({backgroundColor:'white'});
 	}
 
+	// 컴포넌트 리셋
+	eBookCore.func.componentsReset();
+	
+	var _pageEl=$(".page-wrapper[style*='z-index: "+eBookData.totalPageNum+";']");
+	if(0<_pageEl.length){
+		_pageEl = parseInt(_pageEl.first().attr("page")) < parseInt(_pageEl.last().attr("page")) ? _pageEl.last() : _pageEl.first();
+		$("#bookclip").css({
+			left	:_pageEl.offset().left+_pageEl.width(),
+			top		:viewframe.offset().top,
+			height:viewframe.height()
+		});
+	}
 };
 
 

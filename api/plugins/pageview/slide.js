@@ -42,11 +42,11 @@ eBookCore.pageTurn.init = function(){
 			$("<div class='slideframe' />")
 			.css({
 				width			: _viewport.width()+"px",
-				height		: "100%",
+				height		: "98%",
 				textAlign : "center",
 				display		: "inline-block",
 				position	: "absolute",
-				top				: "0px",
+				top				: "2%",
 			})
 			.on("dragstart", function(e){ e.preventDefault(); })
 			
@@ -345,8 +345,13 @@ eBookCore.pageTurn.addBookmarkToPage = function(pageNum, addObj){
 
 /**	★ 페이지 표시 크기 반환
 **/
-eBookCore.pageTurn.getZoomRatio = function(){
-	return $(".pageview .slideframe.current .page .target").first().width() / eBookCore.pageOrigWidth;
+eBookCore.pageTurn.getZoomRatio = function(type){
+	//return $(".pageview .slideframe.current .page .target").first().width() / eBookCore.pageOrigWidth;	
+	var pageEl = $(".pageview .slideframe.current .page .target").first();
+	if(type){
+		return ("w"===type.toLowerCase()) ? pageEl.width() / eBookCore.pageOrigWidth : pageEl.height() / eBookCore.pageOrigHeight;
+	}
+	return (eBookCore.pageOrigWidth > eBookCore.pageOrigHeight) ? pageEl.width() / eBookCore.pageOrigWidth : pageEl.height() / eBookCore.pageOrigHeight;
 };
 
 
@@ -363,6 +368,9 @@ eBookCore.pageTurn.resize = function(){
 	eBookCore.pageTurn.moveSlide();
 	// 북마크도 다시 추가
 	eBookCore.func.bookmarkUpdate();
+	
+	// 컴포넌트 리셋
+	eBookCore.func.componentsReset();
 };
 
 
