@@ -54,8 +54,26 @@ eBookCore.pageTurn.init = function(){
 			// ★ 페이지 컨텐츠 로딩
 			eBookCore.func.loadPageContents(element, pageNum);
 			
-			$("#bookclip").css({
-				left		: viewframe.offset().left+viewframe.width(),
+			if(0<$("#bookclip_pc").length){
+				if(croTools.isMobile()){
+					$("#bookclip_pc").detach();
+				}else{
+					$("#bookclip_pc").attr("id","bookclip");
+				}
+			}
+			
+			if(0<$("#bookclip_mobile").length){
+				if(!croTools.isMobile()){
+					$("#bookclip_mobile").detach();
+				}else{
+					$("#bookclip_mobile").attr("id","bookclip");
+				}
+			}
+			
+			var _pageEl=$(".page-wrapper[style*='z-index: "+eBookData.totalPageNum+";']");
+			_pageEl = parseInt(_pageEl.first().attr("page")) < parseInt(_pageEl.last().attr("page")) ? _pageEl.last() : _pageEl.first();
+			if(0<_pageEl.length) $("#bookclip").css({
+				left		: _pageEl.offset().left+_pageEl.width(),
 				top			: viewframe.offset().top,
 				display	: 'block',
 				position: 'absolute',
@@ -63,7 +81,7 @@ eBookCore.pageTurn.init = function(){
 			});
 		};
 		
-		 // 본문 이미지 로딩이 끝나면 로딩페이지와 교체
+		// 본문 이미지 로딩이 끝나면 로딩페이지와 교체
 		croTools.canHTML5() ? _addImg.load(loadingComplete) : loadingComplete(); // IE8 이하 버전에서 load 이벤트가 제대로 동작하지 않으므로 페이지 이미지로 바로 교체
 	};
 	
@@ -80,8 +98,11 @@ eBookCore.pageTurn.init = function(){
 
 			start : function(event, pageObject, corner){
 				croTools.log("page turn start");
-				$("#bookclip").css({
-					left	:viewframe.offset().left+viewframe.width(),
+				
+				var _pageEl=$(".page-wrapper[style*='z-index: "+eBookData.totalPageNum+";']");
+				_pageEl = parseInt(_pageEl.first().attr("page")) < parseInt(_pageEl.last().attr("page")) ? _pageEl.last() : _pageEl.first();
+				if(0<_pageEl.length) $("#bookclip").css({
+					left		: _pageEl.offset().left+_pageEl.width(),
 					top		:viewframe.offset().top
 				});
 			},
@@ -192,11 +213,15 @@ eBookCore.pageTurn.resize = function(){
 	// 컴포넌트 리셋
 	eBookCore.func.componentsReset();
 	
-	$("#bookclip").css({
-		left	:viewframe.offset().left+viewframe.width(),
-		top		:viewframe.offset().top,
-		height:viewframe.height()
-	});
+	var _pageEl=$(".page-wrapper[style*='z-index: "+eBookData.totalPageNum+";']");
+	if(0<_pageEl.length){
+		_pageEl = parseInt(_pageEl.first().attr("page")) < parseInt(_pageEl.last().attr("page")) ? _pageEl.last() : _pageEl.first();
+		$("#bookclip").css({
+			left	:_pageEl.offset().left+_pageEl.width(),
+			top		:viewframe.offset().top,
+			height:viewframe.height()
+		});
+	}
 };
 
 

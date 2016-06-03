@@ -1046,7 +1046,7 @@ eBookCore.func.initializeEbook = function() {
 		// 16.04.05 박정민 : 확대축소가이드 팝업 사용시 창 띄우기
 		if(0<eBookData.useGuidePopup){
 			var _imgSrc = croTools.isMobile() ? eBookCore.resource.guidePopupTouch : eBookCore.resource.guidePopupClick;
-			var _popupEl = $("<img src="+_imgSrc+" style='position:absolute; height:50%; width:auto; left:0px; right:0px; top:0px; bottom:0px; margin:auto; z-index:"+croTools.zTopMost+"' />");
+			var _popupEl = $("<img src="+_imgSrc+" style='position:absolute; height:50%; width:auto; left:0px; right:0px; top:0px; bottom:0px; margin:auto; z-index:"+(croTools.zTopMost-100)+"' />");
 			_popupEl.prependTo(document.body);
 			_popupEl.on(eBookCore.eventType.click,function(){
 				_popupEl.detach();
